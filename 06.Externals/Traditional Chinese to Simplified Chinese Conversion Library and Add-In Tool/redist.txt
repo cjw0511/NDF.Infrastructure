@@ -1,0 +1,3 @@
+﻿在符合Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool 许可的条件下下面的文件可以再分发:
+
+ChineseConverter.dll

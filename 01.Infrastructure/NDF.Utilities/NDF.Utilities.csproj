@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A4A350E-4B8E-42E3-A276-456C3691A9F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NDF</RootNamespace>
+    <AssemblyName>NDF.Utilities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NDF.Utilities.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\Concurrent\ObservableConcurrentDictionary`.cs" />
+    <Compile Include="Collections\EqualityComparer.cs" />
+    <Compile Include="Collections\Generic\EqualityComparer`.cs" />
+    <Compile Include="Collections\ObjectModel\ObservableDictionary`.cs" />
+    <Compile Include="Collections\ObjectModel\ObservableList`.cs" />
+    <Compile Include="ComponentModel\NamedObject.cs" />
+    <Compile Include="ComponentModel\NamedValue.cs" />
+    <Compile Include="ComponentModel\Paging\DataPager.cs" />
+    <Compile Include="ComponentModel\Paging\DataPager`.cs" />
+    <Compile Include="ComponentModel\Paging\PagingData.cs" />
+    <Compile Include="ComponentModel\Paging\PagingData`.cs" />
+    <Compile Include="ComponentModel\Paging\PagingExtensions.cs" />
+    <Compile Include="ComponentModel\Paging\PagingTable.cs" />
+    <Compile Include="Composition\ComposableCollection.cs" />
+    <Compile Include="Composition\MefCompositions.cs" />
+    <Compile Include="Dictionaries.cs" />
+    <Compile Include="Disposable.cs" />
+    <Compile Include="DynamicObject.cs" />
+    <Compile Include="IO\Path.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Assemblies.cs" />
+    <Compile Include="Reflection\AssemblyExtensions.cs" />
+    <Compile Include="Reflection\AssemblyScope.cs" />
+    <Compile Include="Reflection\AssemblyScopeExtensions.cs" />
+    <Compile Include="Reflection\DynamicMethods.cs" />
+    <Compile Include="Reflection\MemberInfoDescriptionAttribute.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Cryptography\AsymmetricAlgorithms.cs" />
+    <Compile Include="Security\Cryptography\CryptoAlgorithmAttribute.cs" />
+    <Compile Include="Security\Cryptography\HashAlgorithms.cs" />
+    <Compile Include="Security\Cryptography\HashAlgorithmType.cs" />
+    <Compile Include="Security\Cryptography\SymmetricAlgorithms.cs" />
+    <Compile Include="Security\Cryptography\SymmetricAlgorithmType.cs" />
+    <Compile Include="Serialization\Json\Converters\DateTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\DateTimeConverters.cs" />
+    <Compile Include="Serialization\Json\Converters\DateTimeConverterTypeAttribute.cs" />
+    <Compile Include="Serialization\Json\Converters\DateTimeFormatType.cs" />
+    <Compile Include="Serialization\Json\Converters\FullDateTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\GeneralDateConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\LongDateConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\LongTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\MonthDayConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\RFC1123DateTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\ShortDateConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\ShortTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\SortableDateTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\UniversalSortableDateTimeConverter.cs" />
+    <Compile Include="Serialization\Json\Converters\YearMonthConverter.cs" />
+    <Compile Include="Serialization\Json\JsonSerializer.cs" />
+    <Compile Include="SortOrder.cs" />
+    <Compile Include="Text\RandomText.cs" />
+    <Compile Include="Text\RandomTextScope.cs" />
+    <Compile Include="Threading\AsyncVoid.cs" />
+    <Compile Include="Threading\Tasks.cs" />
+    <Compile Include="Utilities\ArrayExtensions.cs" />
+    <Compile Include="Utilities\ByteExtensions.cs" />
+    <Compile Include="Utilities\CharExtensions.cs" />
+    <Compile Include="Utilities\Check.cs" />
+    <Compile Include="Utilities\DataRowExtensions.cs" />
+    <Compile Include="Utilities\DataTableExtensions.cs" />
+    <Compile Include="Utilities\DateTimeExtensions.cs" />
+    <Compile Include="Utilities\DateTimeOffsetExtensions.cs" />
+    <Compile Include="Utilities\DebugCheck.cs" />
+    <Compile Include="Utilities\DecimalExtensions.cs" />
+    <Compile Include="Utilities\DictionaryExtensions`.cs" />
+    <Compile Include="Utilities\DoubleExtensions.cs" />
+    <Compile Include="Utilities\DynamicObjectExtensions.cs" />
+    <Compile Include="Utilities\EnumerableExtensions.cs" />
+    <Compile Include="Utilities\EnumerableExtensions`.cs" />
+    <Compile Include="Utilities\EnumExtensions.cs" />
+    <Compile Include="Utilities\Enums.cs" />
+    <Compile Include="Utilities\Expressions.cs" />
+    <Compile Include="Utilities\Funcs.cs" />
+    <Compile Include="Utilities\IComparerExtensions.cs" />
+    <Compile Include="Utilities\IEqualityComparerExtensions.cs" />
+    <Compile Include="Utilities\Int16Extensions.cs" />
+    <Compile Include="Utilities\Int32Extensions.cs" />
+    <Compile Include="Utilities\NameValueCollectionExtensions.cs" />
+    <Compile Include="Utilities\ObjectExtensions.cs" />
+    <Compile Include="Utilities\Queryable`.cs" />
+    <Compile Include="Utilities\Serialization.Json.cs" />
+    <Compile Include="Utilities\SingleExtensions.cs" />
+    <Compile Include="Utilities\StringExtensions.cs" />
+    <Compile Include="Utilities\TypeExtensions.cs" />
+    <Compile Include="Utilities\Types.cs" />
+    <Compile Include="Utilities\Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

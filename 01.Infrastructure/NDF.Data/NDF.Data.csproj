@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4E2C4BC9-983C-4242-8DB7-73DDF0600371}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NDF.Data</RootNamespace>
+    <AssemblyName>NDF.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NDF.Data.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
+      <HintPath>..\..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Create\DatabaseExtensions.CreateCommand.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Create\DatabaseExtensions.CreateConnection.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Create\DatabaseExtensions.CreateDataAdapter.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Create\DatabaseExtensions.CreateParameter.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteDataSet.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteDataTable.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteDataView.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteNone.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteNonQuery.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteReader.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Execute\DatabaseExtensions.ExecuteScalar.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Load\DatabaseExtensions.LoadDataSet.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Load\DatabaseExtensions.LoadDataTable.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Update\DatabaseExtensions.UpdateDataSet.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Update\DatabaseExtensions.UpdateDataTable.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Utility\DatabaseExtensions.AssignParameters.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Utility\DatabaseExtensions.BeginTransaction.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Utility\DatabaseExtensions.BuildParameterName.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseExtensions.Utility\DatabaseExtensions.DiscoverParameters.cs" />
+    <Compile Include="EnterpriseLibrary\DatabaseFactory.cs" />
+    <Compile Include="Common\Database.Create\Database.CreateCommand.cs" />
+    <Compile Include="Common\Database.Create\Database.CreateConnection.cs" />
+    <Compile Include="Common\Database.Create\Database.CreateDataAdapter.cs" />
+    <Compile Include="Common\Database.Create\Database.CreateParameter.cs" />
+    <Compile Include="Common\Database.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteDataSet.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteDataTable.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteDataView.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteNone.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteNonQuery.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteReader.cs" />
+    <Compile Include="Common\Database.Execute\Database.ExecuteScalar.cs" />
+    <Compile Include="Common\Database.Load\Database.LoadDataSet.cs" />
+    <Compile Include="Common\Database.Load\Database.LoadDataTable.cs" />
+    <Compile Include="Common\Database.Update\Database.UpdateDataSet.cs" />
+    <Compile Include="Common\Database.Update\Database.UpdateDataTable.cs" />
+    <Compile Include="Common\Database.Utility\Database.AssignParameters.cs" />
+    <Compile Include="Common\Database.Utility\Database.BeginTransaction.cs" />
+    <Compile Include="Common\Database.Utility\Database.BuildParameterName.cs" />
+    <Compile Include="Common\Database.Utility\Database.DiscoverParameters.cs" />
+    <Compile Include="Common\DatabaseFactories.cs" />
+    <Compile Include="Common\DatabaseFactory.cs" />
+    <Compile Include="Common\DbProviderAttribute.cs" />
+    <Compile Include="Common\DbProviderFactoryClass.cs" />
+    <Compile Include="Common\DbProviderFactoryExtensions.cs" />
+    <Compile Include="Common\DbScriptParameterParser.cs" />
+    <Compile Include="Generic\GenericDatabase.cs" />
+    <Compile Include="Generic\GenericDatabaseFactory.cs" />
+    <Compile Include="Generic\GenericScriptParameterParser.cs" />
+    <Compile Include="IDatabase.cs" />
+    <Compile Include="IScriptParameterParser.cs" />
+    <Compile Include="Sql\SqlDatabase.cs" />
+    <Compile Include="Sql\SqlDatabaseFactory.cs" />
+    <Compile Include="Sql\SqlScriptParameterParser.cs" />
+    <Compile Include="Practices\IRepository.cs" />
+    <Compile Include="Practices\IUnitOfWork.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NDF.Utilities\NDF.Utilities.csproj">
+      <Project>{3a4a350e-4b8e-42e3-a276-456c3691a9f1}</Project>
+      <Name>NDF.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

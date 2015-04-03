@@ -1,0 +1,315 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Utilities", "01.Infrastructure\NDF.Utilities\NDF.Utilities.csproj", "{3A4A350E-4B8E-42E3-A276-456C3691A9F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Web", "01.Infrastructure\NDF.Web\NDF.Web.csproj", "{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data", "01.Infrastructure\NDF.Data\NDF.Data.csproj", "{4E2C4BC9-983C-4242-8DB7-73DDF0600371}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Infrastructure", "01.Infrastructure", "{0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Externals", "06.Externals", "{441EA0AA-8AAA-4122-B268-9F098D8E3BB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A5ABE7F9-CD9F-49BA-B435-D2B5A6B6E53F}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADO.NET Providers", "ADO.NET Providers", "{7A47201C-1AB8-48BF-8F0C-57AC73DEDFFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ibm-db2", "ibm-db2", "{8CB38C70-A1F3-4A6A-BB4C-D1957D5467DD}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\ibm-db2\db2app.dll = 06.Externals\ADO.NET Providers\ibm-db2\db2app.dll
+		06.Externals\ADO.NET Providers\ibm-db2\db2app64.dll = 06.Externals\ADO.NET Providers\ibm-db2\db2app64.dll
+		06.Externals\ADO.NET Providers\ibm-db2\db2locale.dll = 06.Externals\ADO.NET Providers\ibm-db2\db2locale.dll
+		06.Externals\ADO.NET Providers\ibm-db2\db2locale64.dll = 06.Externals\ADO.NET Providers\ibm-db2\db2locale64.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "netf40", "netf40", "{3ABC3A14-31FE-4545-8EC4-17EEB1818F65}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.DB2.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.DB2.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.DB2.Entity.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.DB2.Entity.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.Informix.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40\IBM.Data.Informix.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "netf40_32", "netf40_32", "{ED529077-2114-4465-B96C-71A82E8FC681}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.DB2.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.DB2.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.DB2.Entity.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.DB2.Entity.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.Informix.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40_32\IBM.Data.Informix.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specific", "specific", "{470D8763-E58E-4736-8316-AFEAD0446FA4}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\ibm-db2\netf40_32\specific\IBM.Data.DB2.10.5.0.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40_32\specific\IBM.Data.DB2.10.5.0.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40_32\specific\IBM.Data.Informix.10.5.0.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40_32\specific\IBM.Data.Informix.10.5.0.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specific", "specific", "{5BADC623-36A7-47FD-86CD-9510978F7090}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\ibm-db2\netf40\specific\IBM.Data.DB2.10.5.0.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40\specific\IBM.Data.DB2.10.5.0.dll
+		06.Externals\ADO.NET Providers\ibm-db2\netf40\specific\IBM.Data.Informix.10.5.0.dll = 06.Externals\ADO.NET Providers\ibm-db2\netf40\specific\IBM.Data.Informix.10.5.0.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{4D5E2D7B-AA35-4A18-A0A5-17D4FBB65C76}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\mysql\MySql.Data.dll = 06.Externals\ADO.NET Providers\mysql\MySql.Data.dll
+		06.Externals\ADO.NET Providers\mysql\MySql.Data.Entity.EF5.dll = 06.Externals\ADO.NET Providers\mysql\MySql.Data.Entity.EF5.dll
+		06.Externals\ADO.NET Providers\mysql\MySql.Data.Entity.EF6.dll = 06.Externals\ADO.NET Providers\mysql\MySql.Data.Entity.EF6.dll
+		06.Externals\ADO.NET Providers\mysql\MySql.Fabric.Plugin.dll = 06.Externals\ADO.NET Providers\mysql\MySql.Fabric.Plugin.dll
+		06.Externals\ADO.NET Providers\mysql\MySql.Web.dll = 06.Externals\ADO.NET Providers\mysql\MySql.Web.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "log4net", "log4net", "{73505950-98E9-4C83-BBA8-2239BDA8C183}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.5", "3.5", "{052E6B22-FDF3-4310-BDD6-6960DBAF9482}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\log4net\3.5\log4net.dll = 06.Externals\log4net\3.5\log4net.dll
+		06.Externals\log4net\3.5\log4net.xml = 06.Externals\log4net\3.5\log4net.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.0", "4.0", "{9925A441-FB07-4EA0-89E6-0F30405F349D}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\log4net\4.0\log4net.dll = 06.Externals\log4net\4.0\log4net.dll
+		06.Externals\log4net\4.0\log4net.xml = 06.Externals\log4net\4.0\log4net.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspose.Cells", "Aspose.Cells", "{DBFE4AED-2568-47AE-9503-E015AAC09D6E}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Aspose.Cells\Aspose.Cells.dll = 06.Externals\Aspose.Cells\Aspose.Cells.dll
+		06.Externals\Aspose.Cells\Aspose.Cells.xml = 06.Externals\Aspose.Cells\Aspose.Cells.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.Exports", "01.Infrastructure\NDF.Data.Exports\NDF.Data.Exports.csproj", "{9C4386D9-4417-444C-A040-8B26ABD7E24E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Simplified Chinese Pin-Yin Conversion Library", "Simplified Chinese Pin-Yin Conversion Library", "{C5CB83AB-BD9F-469F-BFD3-EBCA63DC75D5}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\ChnCharInfo.dll = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\ChnCharInfo.dll
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\ChnCharInfo.XML = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\ChnCharInfo.XML
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\eula.rtf = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\eula.rtf
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\Readme.htm = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\Readme.htm
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\redist.txt = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\redist.txt
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\Simplified Chinese Pin-Yin Conversion Library Document.chm = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\Simplified Chinese Pin-Yin Conversion Library Document.chm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool", "Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool", "{33633EFD-32C2-48DF-B67C-BFDDED88B650}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverter.dll = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverter.dll
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverter.xml = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverter.xml
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverterVSIP.dll = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\ChineseConverterVSIP.dll
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\eula.rtf = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\eula.rtf
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\Readme.htm = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\Readme.htm
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\redist.txt = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\redist.txt
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool Document.chm = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool Document.chm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zh-CHS", "zh-CHS", "{4CDD1D07-5193-4820-9DA0-82B55402E217}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\zh-CHS\ChineseConverterVSIP.resources.dll = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\zh-CHS\ChineseConverterVSIP.resources.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zh-CHT", "zh-CHT", "{4A2AF0F4-01C3-446E-B822-983EB3DF0ED7}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\zh-CHT\ChineseConverterVSIP.resources.dll = 06.Externals\Traditional Chinese to Simplified Chinese Conversion Library and Add-In Tool\zh-CHT\ChineseConverterVSIP.resources.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zh-CN", "zh-CN", "{A4E46322-9FB8-4FC7-88E0-9002C63EA4CE}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\Simplified Chinese Pin-Yin Conversion Library\zh-CN\ChnCharInfo.resources.dll = 06.Externals\Simplified Chinese Pin-Yin Conversion Library\zh-CN\ChnCharInfo.resources.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Log", "01.Infrastructure\NDF.Log\NDF.Log.csproj", "{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PanGu_Release_V2.3.1.0", "PanGu_Release_V2.3.1.0", "{EBE4A2A2-9155-4C47-A8E9-828CF3811564}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\PanGu_Release_V2.3.1.0\license.txt = 06.Externals\PanGu_Release_V2.3.1.0\license.txt
+		06.Externals\PanGu_Release_V2.3.1.0\许可协议-简体中文参考版.txt = 06.Externals\PanGu_Release_V2.3.1.0\许可协议-简体中文参考版.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release", "Release", "{B22CAA3D-AE87-4101-8F66-D44A4C1D08DA}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\PanGu_Release_V2.3.1.0\Release\CustomRuleExample.dll = 06.Externals\PanGu_Release_V2.3.1.0\Release\CustomRuleExample.dll
+		06.Externals\PanGu_Release_V2.3.1.0\Release\CustomRuleExample.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\CustomRuleExample.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.exe = 06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.exe
+		06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.vshost.exe = 06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.vshost.exe
+		06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.vshost.exe.manifest = 06.Externals\PanGu_Release_V2.3.1.0\Release\Demo.vshost.exe.manifest
+		06.Externals\PanGu_Release_V2.3.1.0\Release\DictManage.exe = 06.Externals\PanGu_Release_V2.3.1.0\Release\DictManage.exe
+		06.Externals\PanGu_Release_V2.3.1.0\Release\DictManage.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\DictManage.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.dll = 06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.dll
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.HighLight.dll = 06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.HighLight.dll
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.HighLight.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.HighLight.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.xml = 06.Externals\PanGu_Release_V2.3.1.0\Release\PanGu.xml
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PosDisplayCtrl.dll = 06.Externals\PanGu_Release_V2.3.1.0\Release\PosDisplayCtrl.dll
+		06.Externals\PanGu_Release_V2.3.1.0\Release\PosDisplayCtrl.pdb = 06.Externals\PanGu_Release_V2.3.1.0\Release\PosDisplayCtrl.pdb
+		06.Externals\PanGu_Release_V2.3.1.0\Release\说明.txt = 06.Externals\PanGu_Release_V2.3.1.0\Release\说明.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dictionaries", "Dictionaries", "{EDA44C1B-0FAE-41FD-85CA-B73E84FC949F}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsDoubleName1.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsDoubleName1.txt
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsDoubleName2.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsDoubleName2.txt
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsSingleName.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\ChsSingleName.txt
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Dict.dct = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Dict.dct
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Stopword.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Stopword.txt
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Synonym.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Synonym.txt
+		06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Wildcard.txt = 06.Externals\PanGu_Release_V2.3.1.0\Dictionaries\Wildcard.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Segment", "01.Infrastructure\NDF.Segment\NDF.Segment.csproj", "{66599427-93C1-4A29-A689-38FE3C4F3F58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.International", "01.Infrastructure\NDF.International\NDF.International.csproj", "{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.Redis", "01.Infrastructure\NDF.Data.Redis\NDF.Data.Redis.csproj", "{40769A85-C733-455B-8C01-3194D880DE7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.EntityFramework", "01.Infrastructure\NDF.Data.EntityFramework\NDF.Data.EntityFramework.csproj", "{D6EF291C-4941-4593-AB4A-84679125E951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.MySql", "01.Infrastructure\NDF.Data.MySql\NDF.Data.MySql.csproj", "{0E92A375-C333-44BA-9BEF-4AD06A3C7B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.Oracle", "01.Infrastructure\NDF.Data.Oracle\NDF.Data.Oracle.csproj", "{99976D77-431E-4B01-BC71-F4BA96750DCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Data.DB2", "01.Infrastructure\NDF.Data.DB2\NDF.Data.DB2.csproj", "{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.01.Common", "01.01.Common", "{C8C1B217-962A-4D02-AB08-2550BC9DDD4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.03.Web", "01.03.Web", "{61FFAED0-A566-4D9A-BDDA-30F99D475725}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.02.Data", "01.02.Data", "{8E862FEF-42A3-41A6-A650-9092A6E6272B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.04.International", "01.04.International", "{0CBB6DDD-1941-49CD-A56F-427222B4FF34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.05.Segment", "01.05.Segment", "{FF2A7252-1632-4CD9-8579-6322A15755AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "oracle", "oracle", "{72E22DC7-C3F2-44EA-8211-3462867B4FEC}"
+	ProjectSection(SolutionItems) = preProject
+		06.Externals\ADO.NET Providers\oracle\Oracle.ManagedDataAccess.dll = 06.Externals\ADO.NET Providers\oracle\Oracle.ManagedDataAccess.dll
+		06.Externals\ADO.NET Providers\oracle\Oracle.ManagedDataAccess.EntityFramework.dll = 06.Externals\ADO.NET Providers\oracle\Oracle.ManagedDataAccess.EntityFramework.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Web.Http", "01.Infrastructure\NDF.Web.Http\NDF.Web.Http.csproj", "{5F82CC77-8F42-4539-B7F4-5A17A49F21C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDF.Web.Mvc", "01.Infrastructure\NDF.Web.Mvc\NDF.Web.Mvc.csproj", "{A11DD791-7542-440C-AF0B-9BE96653F7CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99.github", "99.github", "{0DE1F785-8BD9-4877-A4BF-6C707AAEAD38}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A4A350E-4B8E-42E3-A276-456C3691A9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A4A350E-4B8E-42E3-A276-456C3691A9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A4A350E-4B8E-42E3-A276-456C3691A9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A4A350E-4B8E-42E3-A276-456C3691A9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E2C4BC9-983C-4242-8DB7-73DDF0600371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2C4BC9-983C-4242-8DB7-73DDF0600371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2C4BC9-983C-4242-8DB7-73DDF0600371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2C4BC9-983C-4242-8DB7-73DDF0600371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C4386D9-4417-444C-A040-8B26ABD7E24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C4386D9-4417-444C-A040-8B26ABD7E24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C4386D9-4417-444C-A040-8B26ABD7E24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C4386D9-4417-444C-A040-8B26ABD7E24E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66599427-93C1-4A29-A689-38FE3C4F3F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66599427-93C1-4A29-A689-38FE3C4F3F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66599427-93C1-4A29-A689-38FE3C4F3F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66599427-93C1-4A29-A689-38FE3C4F3F58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40769A85-C733-455B-8C01-3194D880DE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40769A85-C733-455B-8C01-3194D880DE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40769A85-C733-455B-8C01-3194D880DE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40769A85-C733-455B-8C01-3194D880DE7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EF291C-4941-4593-AB4A-84679125E951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EF291C-4941-4593-AB4A-84679125E951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EF291C-4941-4593-AB4A-84679125E951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EF291C-4941-4593-AB4A-84679125E951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E92A375-C333-44BA-9BEF-4AD06A3C7B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E92A375-C333-44BA-9BEF-4AD06A3C7B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E92A375-C333-44BA-9BEF-4AD06A3C7B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E92A375-C333-44BA-9BEF-4AD06A3C7B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99976D77-431E-4B01-BC71-F4BA96750DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99976D77-431E-4B01-BC71-F4BA96750DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99976D77-431E-4B01-BC71-F4BA96750DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99976D77-431E-4B01-BC71-F4BA96750DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F82CC77-8F42-4539-B7F4-5A17A49F21C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F82CC77-8F42-4539-B7F4-5A17A49F21C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F82CC77-8F42-4539-B7F4-5A17A49F21C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F82CC77-8F42-4539-B7F4-5A17A49F21C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A11DD791-7542-440C-AF0B-9BE96653F7CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11DD791-7542-440C-AF0B-9BE96653F7CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11DD791-7542-440C-AF0B-9BE96653F7CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11DD791-7542-440C-AF0B-9BE96653F7CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A4A350E-4B8E-42E3-A276-456C3691A9F1} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{48D34AD6-37D6-4DF6-A8E0-5CC1244D02BB} = {61FFAED0-A566-4D9A-BDDA-30F99D475725}
+		{4E2C4BC9-983C-4242-8DB7-73DDF0600371} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{7A47201C-1AB8-48BF-8F0C-57AC73DEDFFC} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{8CB38C70-A1F3-4A6A-BB4C-D1957D5467DD} = {7A47201C-1AB8-48BF-8F0C-57AC73DEDFFC}
+		{3ABC3A14-31FE-4545-8EC4-17EEB1818F65} = {8CB38C70-A1F3-4A6A-BB4C-D1957D5467DD}
+		{ED529077-2114-4465-B96C-71A82E8FC681} = {8CB38C70-A1F3-4A6A-BB4C-D1957D5467DD}
+		{470D8763-E58E-4736-8316-AFEAD0446FA4} = {ED529077-2114-4465-B96C-71A82E8FC681}
+		{5BADC623-36A7-47FD-86CD-9510978F7090} = {3ABC3A14-31FE-4545-8EC4-17EEB1818F65}
+		{4D5E2D7B-AA35-4A18-A0A5-17D4FBB65C76} = {7A47201C-1AB8-48BF-8F0C-57AC73DEDFFC}
+		{73505950-98E9-4C83-BBA8-2239BDA8C183} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{052E6B22-FDF3-4310-BDD6-6960DBAF9482} = {73505950-98E9-4C83-BBA8-2239BDA8C183}
+		{9925A441-FB07-4EA0-89E6-0F30405F349D} = {73505950-98E9-4C83-BBA8-2239BDA8C183}
+		{DBFE4AED-2568-47AE-9503-E015AAC09D6E} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{9C4386D9-4417-444C-A040-8B26ABD7E24E} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{C5CB83AB-BD9F-469F-BFD3-EBCA63DC75D5} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{33633EFD-32C2-48DF-B67C-BFDDED88B650} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{4CDD1D07-5193-4820-9DA0-82B55402E217} = {33633EFD-32C2-48DF-B67C-BFDDED88B650}
+		{4A2AF0F4-01C3-446E-B822-983EB3DF0ED7} = {33633EFD-32C2-48DF-B67C-BFDDED88B650}
+		{A4E46322-9FB8-4FC7-88E0-9002C63EA4CE} = {C5CB83AB-BD9F-469F-BFD3-EBCA63DC75D5}
+		{2B4A4F4E-61A3-4AEC-8753-C8EB211A52EB} = {C8C1B217-962A-4D02-AB08-2550BC9DDD4E}
+		{EBE4A2A2-9155-4C47-A8E9-828CF3811564} = {441EA0AA-8AAA-4122-B268-9F098D8E3BB6}
+		{B22CAA3D-AE87-4101-8F66-D44A4C1D08DA} = {EBE4A2A2-9155-4C47-A8E9-828CF3811564}
+		{EDA44C1B-0FAE-41FD-85CA-B73E84FC949F} = {EBE4A2A2-9155-4C47-A8E9-828CF3811564}
+		{66599427-93C1-4A29-A689-38FE3C4F3F58} = {FF2A7252-1632-4CD9-8579-6322A15755AD}
+		{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF} = {0CBB6DDD-1941-49CD-A56F-427222B4FF34}
+		{40769A85-C733-455B-8C01-3194D880DE7D} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{D6EF291C-4941-4593-AB4A-84679125E951} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{0E92A375-C333-44BA-9BEF-4AD06A3C7B57} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{99976D77-431E-4B01-BC71-F4BA96750DCC} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{7E241F0B-0255-4E77-9FC4-7AB0BFD8036F} = {8E862FEF-42A3-41A6-A650-9092A6E6272B}
+		{C8C1B217-962A-4D02-AB08-2550BC9DDD4E} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{61FFAED0-A566-4D9A-BDDA-30F99D475725} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{8E862FEF-42A3-41A6-A650-9092A6E6272B} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{0CBB6DDD-1941-49CD-A56F-427222B4FF34} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{FF2A7252-1632-4CD9-8579-6322A15755AD} = {0D7CE38F-92C4-4D57-9DFA-CB1AA150CB7C}
+		{72E22DC7-C3F2-44EA-8211-3462867B4FEC} = {7A47201C-1AB8-48BF-8F0C-57AC73DEDFFC}
+		{5F82CC77-8F42-4539-B7F4-5A17A49F21C8} = {61FFAED0-A566-4D9A-BDDA-30F99D475725}
+		{A11DD791-7542-440C-AF0B-9BE96653F7CE} = {61FFAED0-A566-4D9A-BDDA-30F99D475725}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

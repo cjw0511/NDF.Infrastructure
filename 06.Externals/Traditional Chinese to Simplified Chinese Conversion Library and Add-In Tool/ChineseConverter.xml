@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>ChineseConverter</name>
+  </assembly>
+  <members>
+    <member name="M:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.OfficeConversionEngine.TCSCConvert(System.String,Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConversionDirection)">
+      <summary>
+        使用Office12的转换工具进行简体中文和繁体中文之间的相互转换。
+      </summary>
+      <param name="input">需要转换的字符串。</param>
+      <param name="direction">转换方式。</param>
+      <returns>转换的字符串。</returns>
+    </member>
+    <member name="T:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConverter">
+      <summary>
+        提供一个工具类进行简体中文和繁体中文之间的相互转换。
+      </summary>
+      <remarks>
+        <br>可以通过ChineseConversionDirection参数来指定繁简转换的方向。</br>
+        如果Office提供的转换引擎可用，这个类就会调用他，否则将默认使用 Windows API，与Windows API简单的一一映射不同，Office12的繁体/简体转换引擎按短语转换大大提高了转换的质量。
+      </remarks>
+      <example>
+        以下代码演示了繁体及简体中文字符串之间的转换。
+        <code source = "../../Example_CS/Program.cs" lang = "cs"></code>
+        <code source = "../../Example_VB/Main.vb" lang = "vbnet"></code>
+        <code source = "../../Example_CPP/Example_CPP.cpp" lang = "cpp"></code>
+      </example>
+    </member>
+    <member name="M:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConverter.Convert(System.String,Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConversionDirection)">
+      <summary>
+        转换简体中文和繁体中文字符串。
+      </summary>
+      <param name="text">需要转换的字符串。</param>
+      <param name="direction">转换方式。</param>
+      <returns>转换的字符串。</returns>
+      <exception cref="T:System.ArgumentNullException">
+        文本是一个空引用。
+      </exception>
+      <remarks>
+        请参阅<see cref="T:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConverter"/>来查看使用中文转换的例子。
+      </remarks>
+    </member>
+    <member name="T:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConversionDirection">
+      <summary>
+        存储转换方向，包括繁体转换为简体中文和简体转换为繁体中文。
+      </summary>
+      <remarks>
+        请参阅<see cref="T:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConverter"/>来查看使用中文转换的例子。
+      </remarks>
+    </member>
+    <member name="F:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConversionDirection.SimplifiedToTraditional">
+      <summary>
+     把简体中文转换为繁体中文。
+      </summary>
+    </member>
+    <member name="F:Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter.ChineseConversionDirection.TraditionalToSimplified">
+      <summary>
+     把繁体中文转换为简体中文。 
+      </summary>
+    </member>
+</members>
+</doc>
