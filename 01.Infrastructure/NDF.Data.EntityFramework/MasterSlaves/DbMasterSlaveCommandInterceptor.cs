@@ -1,4 +1,6 @@
-﻿using NDF.Utilities;
+﻿using NDF.Data.EntityFramework.MasterSlaves.Interception;
+using NDF.Data.Utilities;
+using NDF.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,8 +19,10 @@ namespace NDF.Data.EntityFramework.MasterSlaves
     public class DbMasterSlaveCommandInterceptor : DbCommandInterceptor
     {
         private Type _contextType;
-        private MasterSlaveContextConfig _config;
+        private DbMasterSlaveConfigContext _config;
         private bool _taskIsRunning = false;
+
+        private readonly object _locker = new object();
 
 
         /// <summary>
@@ -37,9 +41,17 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// <summary>
         /// 获取当前 <see cref="DbMasterSlaveCommandInterceptor"/> 指定读写分离命令拦截操作时所使用的配置对象。
         /// </summary>
-        public MasterSlaveContextConfig Config
+        public DbMasterSlaveConfigContext Config
         {
             get { return this._config; }
+        }
+
+        /// <summary>
+        /// 获取该 <see cref="DbMasterSlaveCommandInterceptor"/> 对象所作用于的目标 EF 实体数据库上下文类型。
+        /// </summary>
+        public Type TargetContextType
+        {
+            get { return this.Config.TargetContextType; }
         }
 
 
@@ -70,7 +82,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// <param name="interceptionContext"></param>
         public override void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
         {
-            this.UpdateToSlaveIfNeed(interceptionContext);
+            this.UpdateToSlaveIfNeed(command, interceptionContext);
         }
 
         /// <summary>
@@ -80,7 +92,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// <param name="interceptionContext"></param>
         public override void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
         {
-            this.UpdateToSlaveIfNeed(interceptionContext);
+            this.UpdateToSlaveIfNeed(command, interceptionContext);
         }
 
         /// <summary>
@@ -90,7 +102,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// <param name="interceptionContext"></param>
         public override void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
         {
-            this.UpdateToMasterIfNeed(interceptionContext);
+            this.UpdateToMasterIfNeed(command, interceptionContext);
         }
 
 
@@ -99,8 +111,9 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// 在需要的情况下，将命令拦截到的 EF 实体上下文中使用到的数据库连接切换至 Master 数据库连接。
         /// <para>同时按需启动数据库连接状态轮询检测服务。</para>
         /// </summary>
+        /// <param name="command"></param>
         /// <param name="interceptionContext"></param>
-        protected virtual void UpdateToMasterIfNeed(DbCommandInterceptionContext interceptionContext)
+        protected virtual void UpdateToMasterIfNeed(DbCommand command, DbInterceptionContext interceptionContext)
         {
             var contexts = from context in interceptionContext.DbContexts
                            where this.ValidateContextCanApplyTo(context)
@@ -109,17 +122,18 @@ namespace NDF.Data.EntityFramework.MasterSlaves
             string connectionString = this.MasterConnectionString;
             foreach (var context in contexts)
             {
-                this.UpdateConnectionStringIfNeed(context.Database.Connection, connectionString);
-                this.StartCurrentServersStateScanIfNeed(context);
+                this.UpdateConnectionStringIfNeed(command, context.Database.Connection, connectionString);
+                this.StartServersStateScanIfNeed(context);
             }
         }
-        
+
         /// <summary>
         /// 在需要的情况下，将命令拦截到的 EF 实体上下文中使用到的数据库连接切换至 Slave 数据库连接。
         /// <para>同时按需启动数据库连接状态轮询检测服务。</para>
         /// </summary>
+        /// <param name="command"></param>
         /// <param name="interceptionContext"></param>
-        protected virtual void UpdateToSlaveIfNeed(DbCommandInterceptionContext interceptionContext)
+        protected virtual void UpdateToSlaveIfNeed(DbCommand command, DbInterceptionContext interceptionContext)
         {
             var contexts = from context in interceptionContext.DbContexts
                            where this.ValidateContextCanApplyTo(context)
@@ -128,8 +142,8 @@ namespace NDF.Data.EntityFramework.MasterSlaves
             foreach (var context in contexts)
             {
                 string connectionString = this.GetSlaveConnectionString(context);
-                this.UpdateConnectionStringIfNeed(context.Database.Connection, connectionString);
-                this.StartCurrentServersStateScanIfNeed(context);
+                this.UpdateConnectionStringIfNeed(command, context.Database.Connection, connectionString);
+                this.StartServersStateScanIfNeed(context);
             }
         }
 
@@ -137,7 +151,6 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         private string GetSlaveConnectionString(System.Data.Entity.DbContext context)
         {
             Transaction tran = Transaction.Current;
-
             return (tran == null || tran.TransactionInformation.Status == TransactionStatus.Committed) && context.Database.CurrentTransaction == null
                 ? this.Config.UsableSlaveConnectionString
                 : this.MasterConnectionString;
@@ -153,18 +166,21 @@ namespace NDF.Data.EntityFramework.MasterSlaves
             return this.Config.CanApplyTo(context);
         }
 
-        
+
         /// <summary>
         /// 确定数据库连接对象 <see cref="DbConnection"/> 所使用的连接字符串是否等效于指定的文本值。
         /// 如果不等效，则用传入的文本值 <paramref name="connectionString"/> 更新该数据库连接对象所使用的连接字符串。
         /// </summary>
+        /// <param name="command"></param>
         /// <param name="connection"></param>
         /// <param name="connectionString"></param>
-        protected void UpdateConnectionStringIfNeed(DbConnection connection, string connectionString)
+        protected void UpdateConnectionStringIfNeed(DbCommand command, DbConnection connection, string connectionString)
         {
-            if (!this.ConnectionStringEquals(connection, connectionString))
+            if (!ConnectionStringEquals(connection, connectionString))
             {
-                this.UpdateConnectionString(connection, connectionString);
+                MasterSlaveInterception.Dispatcher.ConnectionStringUpdating(command, this.TargetContextType);
+                UpdateConnectionString(connection, connectionString);
+                MasterSlaveInterception.Dispatcher.ConnectionStringUpdated(command, this.TargetContextType);
             }
         }
 
@@ -173,7 +189,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="connectionString"></param>
-        protected virtual void UpdateConnectionString(DbConnection conn, string connectionString)
+        internal static void UpdateConnectionString(DbConnection conn, string connectionString)
         {
             ConnectionState state = conn.State;
             if (state == ConnectionState.Open)
@@ -185,28 +201,28 @@ namespace NDF.Data.EntityFramework.MasterSlaves
                 conn.Open();
         }
 
-        
+
         /// <summary>
         /// 比较指定的数据库连接对象 <paramref name="connection"/> 所使用的连接字符串信息是否等效于一个字符串  <paramref name="connectionString"/> 所表示的连接。
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        protected virtual bool ConnectionStringEquals(DbConnection connection, string connectionString)
+        internal static bool ConnectionStringEquals(DbConnection connection, string connectionString)
         {
             DbProviderFactory factory = DbProviderFactories.GetFactory(connection);
-            ConnectionStringEqualityComparer comparer = this.GetConnectionStringComparer(factory);
+            DbConnectionStringEqualityComparer comparer = GetConnectionStringEqualityComparer(factory);
             return comparer.Equals(connection.ConnectionString, connectionString);
         }
 
         /// <summary>
-        /// 获取一个用于比较数据库连接字符串等效性的 <see cref="ConnectionStringEqualityComparer"/> 对象。
+        /// 获取一个用于比较数据库连接字符串等效性的 <see cref="DbConnectionStringEqualityComparer"/> 对象。
         /// </summary>
         /// <param name="factory"></param>
         /// <returns></returns>
-        protected ConnectionStringEqualityComparer GetConnectionStringComparer(DbProviderFactory factory)
+        internal static DbConnectionStringEqualityComparer GetConnectionStringEqualityComparer(DbProviderFactory factory)
         {
-            return ConnectionStringEqualityComparer.GetComparer(factory);
+            return DbConnectionStringEqualityComparer.GetConnectionStringEqualityComparer(factory);
         }
 
 
@@ -215,27 +231,34 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// 开启当前命令拦截器所用配置对象中的所有数据库连接状态可用性检测轮询服务。
         /// </summary>
         /// <param name="context"></param>
-        protected void StartCurrentServersStateScanIfNeed(System.Data.Entity.DbContext context)
+        protected void StartServersStateScanIfNeed(System.Data.Entity.DbContext context)
         {
-            if (this._taskIsRunning)
-                return;
+            lock (this._locker)
+            {
+                if (this._taskIsRunning)
+                    return;
 
-            Type contextType = context.GetType();
-            DbProviderFactory factory = DbProviderFactories.GetFactory(context.Database.Connection);
-            this.Config.StartDbServerStateScanIfNeed(factory);
+                Type contextType = context.GetType();
+                DbProviderFactory factory = DbProviderFactories.GetFactory(context.Database.Connection);
+                this.Config.StartDbServersStateScanTaskIfNeed(factory);
 
-            this._taskIsRunning = true;
+                this._taskIsRunning = true;
+            }
         }
 
 
         private void ResetMasterSlaveContextConfig()
         {
-            if (this._config != null)
-            {
-                this._config.Dispose();
-            }
-            this._config = new MasterSlaveContextConfig(this._contextType);
+            DbMasterSlaveConfigContext newConfig = new DbMasterSlaveConfigContext(this._contextType);
+            DbMasterSlaveConfigContext oldConfig = this._config;
+
+            this._config = newConfig;
             this._taskIsRunning = false;
+
+            if (oldConfig != null)
+            {
+                oldConfig.Dispose();
+            }
         }
 
 

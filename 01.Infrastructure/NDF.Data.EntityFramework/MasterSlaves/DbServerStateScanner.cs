@@ -1,4 +1,6 @@
-﻿using NDF.Utilities;
+﻿using NDF.Data.EntityFramework.MasterSlaves.Interception;
+using NDF.Data.Utilities;
+using NDF.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,127 +15,214 @@ namespace NDF.Data.EntityFramework.MasterSlaves
     /// <summary>
     /// 定义一个数据库服务器连接状态扫描器，用于检测数据库服务器的连接状态。
     /// </summary>
-    public class DbServerStateScanner
+    public class DbServerStateScanner : Disposable
     {
-        private static object _locker = new object();
-        private static Dictionary<DbProviderFactory, DbServerStateScanner> _scanners = new Dictionary<DbProviderFactory, DbServerStateScanner>();
+        private DbMasterSlaveConfigContext _config;
 
-        private DbProviderFactory _factory;
+        private Timer _timer;
+        private List<CancellationTokenSource> _cancellationTokens = new List<CancellationTokenSource>();
+
+
+        #region 构造函数定义
+
+        /// <summary>
+        /// 初始化类型 <see cref="DbServerStateScanner"/> 的新实例。
+        /// </summary>
+        private DbServerStateScanner()
+        {
+            this.Disposing += DbServerStateScanner_Disposing;
+            this.InitializeInterceptorRegister();
+        }
+
+        /// <summary>
+        /// 初始化类型 <see cref="DbServerStateScanner"/> 的新实例。
+        /// </summary>
+        internal DbServerStateScanner(DbMasterSlaveConfigContext config)
+            : this()
+        {
+            Check.NotNull(config);
+            this._config = config;
+        }
+
+        #endregion
+
 
 
         /// <summary>
-        /// 以一个 <see cref="DbProviderFactory"/> 作为 ADO.NET 对象工厂对象初始化类型 <see cref="DbServerStateScanner"/> 的新实例。
+        /// 开启针对当前对象使用的配置对象中所示配置内容的数据库连接状态可用性检测功能。
         /// </summary>
         /// <param name="factory"></param>
-        private DbServerStateScanner(DbProviderFactory factory)
+        public void StartScanTask(DbProviderFactory factory)
         {
-            this._factory = factory;
+            Check.NotNull(factory);
+
+            this.ClearResources();
+
+            TimerCallback callback = state => this.ScanDbServersState(factory);
+            int douTime = this._config.ServerStateScanInterval * 1000;
+            int period = this._config.ServerStateScanInterval * 1000;
+
+            this._timer = new Timer(callback, null, douTime, period);
         }
 
 
-        /// <summary>
-        /// 获取当前扫描器用于创建 ADO.NET 对象的工厂对象。
-        /// </summary>
-        public DbProviderFactory ProviderFactory
+        private void ScanDbServersState(DbProviderFactory factory)
         {
-            get { return this._factory; }
-        }
-
-
-        /// <summary>
-        /// 使用同步方式检测一个数据库连接字符串所表示的数据库服务器的可连接状态。
-        /// 注意：在连接请求异常的情况下，该方法可能需要很长时间（具体取决于传入的参数 <paramref name="connectionString"/> 中设定的 timeout 值）才能获得返回结果。
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public DbServerState Scan(string connectionString)
-        {
-            DbServerState state = DbServerState.Online;
-            using (DbConnection connection = this.GetConnection(connectionString))
+            DbServer[] servers = this.GetDbServers();
+            if (servers.Length > 0)
             {
-                try
+                foreach (DbServer server in servers)
                 {
-                    connection.Open();
-                    state = DbServerState.Online;
-                    connection.Close();
-                }
-                catch
-                {
-                    if (connection.State == ConnectionState.Open)
-                        connection.Close();
-
-                    state = DbServerState.Offline;
+                    this.ScanDbServerState(server, factory);
                 }
             }
-            return state;
         }
 
-
-        /// <summary>
-        /// 使用异步方式检测一个数据库连接字符串所表示的数据库服务器的可连接状态。
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public Task<DbServerState> ScanAsync(string connectionString)
+        private void ScanDbServerState(DbServer server, DbProviderFactory factory)
         {
-            return Task.Run(
-                () =>
+            DbConnectionStringTester tester = DbConnectionStringTester.GetConnectionStringTester(factory);
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            cts.Token.Register(() => this.RemoveCancellationToken(cts));
+            this._cancellationTokens.Add(cts);
+
+            this.OnScanning(server.ConnectionString, server.Type, server.State);
+            tester.TestAsync(server.ConnectionString, cts.Token).ContinueWith(
+                t =>
                 {
-                    return this.Scan(connectionString);
+                    if (t.IsCompleted || t.IsFaulted)
+                        this.RemoveCancellationToken(cts);
+
+                    if (t.IsCompleted && server != null)
+                    {
+                        server.State = t.Result ? DbServerState.Online : DbServerState.Offline;
+                        this.OnScanned(server.ConnectionString, server.Type, server.State);
+                    }
                 });
         }
 
-        /// <summary>
-        /// 使用异步方式检测一个数据库连接字符串所表示的数据库服务器的可连接状态。
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task<DbServerState> ScanAsync(string connectionString, CancellationToken cancellationToken)
+
+        private void RemoveCancellationToken(CancellationTokenSource cancellationTokenSource)
         {
-            return Task.Run(
-                () =>
-                {
-                    return this.Scan(connectionString);
-                }, cancellationToken);
-        }
-
-
-        /// <summary>
-        /// 获取一个当前扫描器所使用的数据库连接对象。
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        protected DbConnection GetConnection(string connectionString)
-        {
-            connectionString = Check.EmptyCheck(connectionString);
-            DbConnection connection = this.ProviderFactory.CreateConnection();
-            connection.ConnectionString = connectionString;
-            return connection;
-        }
-
-
-
-        /// <summary>
-        /// 获取 <see cref="DbServerStateScanner"/> 类型可用于检测指定的 ADO.NET 对象工厂 <paramref name="factory"/> 生成的数据库连接可用性状态的一个实例。
-        /// </summary>
-        /// <param name="factory"></param>
-        /// <returns></returns>
-        public static DbServerStateScanner GetDbServerStateScanner(DbProviderFactory factory)
-        {
-            Check.NotNull(factory);
-            lock (_locker)
+            if (cancellationTokenSource != null)
             {
-                DbServerStateScanner scanner = null;
-                if (!_scanners.TryGetValue(factory, out scanner))
-                {
-                    scanner = new DbServerStateScanner(factory);
-                    _scanners.Add(factory, scanner);
-                }
-                return scanner;
+                this._cancellationTokens.Remove(cancellationTokenSource);
             }
         }
 
+
+        private DbServer[] GetDbServers()
+        {
+            List<DbServer> list = new List<DbServer>();
+
+            if (this._config.ServerStateScanWithNoOffline)
+            {
+                if (this._config.MasterServer.State == DbServerState.Online)
+                    list.Add(this._config.MasterServer);
+
+                list.AddRange(this._config.OnlineSlaveServers);
+            }
+            else
+            {
+                list.Add(this._config.MasterServer);
+                list.AddRange(this._config.SlaveServers);
+            }
+
+            return list.ToArray();
+        }
+
+
+
+        #region 定义数据库连接状态可用性轮询检测的相依事件触发机制
+
+        /// <summary>
+        /// 引发 <see cref="DbServerStateScanner"/> 类型对象的 <see cref="Scanning"/> 事件。
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="serverType"></param>
+        /// <param name="serverState"></param>
+        protected void OnScanning(string connectionString, DbServerType serverType, DbServerState serverState)
+        {
+            if (this.Scanning != null)
+            {
+                DbServerStateScanEventArgs e = new DbServerStateScanEventArgs(connectionString, serverType, serverState);
+                this.Scanning(this, e);
+            }
+        }
+
+        /// <summary>
+        /// 引发 <see cref="DbServerStateScanner"/> 类型对象的 <see cref="Scanned"/> 事件。
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="serverType"></param>
+        /// <param name="serverState"></param>
+        protected void OnScanned(string connectionString, DbServerType serverType, DbServerState serverState)
+        {
+            if (this.Scanned != null)
+            {
+                DbServerStateScanEventArgs e = new DbServerStateScanEventArgs(connectionString, serverType, serverState);
+                this.Scanned(this, e);
+            }
+        }
+
+
+        /// <summary>
+        /// 表示 EF 数据库主从读写分离服务在自动扫描数据库服务器节点的可用性状态执行瞬间前所引发的事件动作。
+        /// </summary>
+        public event DbServerStateScanEventHandler Scanning;
+
+        /// <summary>
+        /// 表示 EF 数据库主从读写分离服务在自动扫描数据库服务器节点的可用性状态完成瞬间后所引发的事件动作。
+        /// </summary>
+        public event DbServerStateScanEventHandler Scanned;
+
+
+
+        private void InitializeInterceptorRegister()
+        {
+            this.Scanning += DbServerStateScanner_Scanning;
+            this.Scanned += DbServerStateScanner_Scanned;
+        }
+
+        private void DbServerStateScanner_Scanning(object sender, DbServerStateScanEventArgs e)
+        {
+            MasterSlaveInterception.Dispatcher.DbServerStateScanning(e.ConnectionString, e.DbServerType, e.DbServerState, this._config.TargetContextType);
+        }
+
+        private void DbServerStateScanner_Scanned(object sender, DbServerStateScanEventArgs e)
+        {
+            MasterSlaveInterception.Dispatcher.DbServerStateScanned(e.ConnectionString, e.DbServerType, e.DbServerState, this._config.TargetContextType);
+        }
+
+        #endregion
+
+
+        #region Dispose 和资源释放相关操作
+
+        private void DbServerStateScanner_Disposing(object sender, EventArgs e)
+        {
+            this.ClearResources();
+        }
+
+        private void ClearResources()
+        {
+            if (this._timer != null)
+            {
+                this._timer.Dispose();
+                this._timer = null;
+            }
+            if (this._cancellationTokens != null && this._cancellationTokens.Count > 0)
+            {
+                foreach (CancellationTokenSource cts in this._cancellationTokens.ToArray())
+                {
+                    if (cts != null && !cts.IsCancellationRequested)
+                        cts.Cancel(false);
+                }
+                this._cancellationTokens.Clear();
+            }
+        }
+
+        #endregion
 
     }
 }

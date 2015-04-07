@@ -22,10 +22,11 @@ namespace NDF.Data.EntityFramework.MasterSlaves.ConfigFile
         private const string _AutoSwitchSlaveOnMasterFauled_Key = "autoSwitchSlaveOnMasterFauled";
         private const string _AutoSwitchMasterOnSlavesFauled_Key = "autoSwitchMasterOnSlavesFauled";
         private const string _SlaveRandomization_Key = "slaveRandomization";
-        private const string _SlaveScanInterval_Key = "slaveScanInterval";
+        private const string _ServerStateScanInterval_Key = "serverStateScanInterval";
+        private const string _ServerStateScanWithNoOffline_Key = "serverStateScanWithNoOffline";
 
-        private object _locker = new object();
         private Type _targetContextType;
+        private readonly object _locker = new object();
 
 
 
@@ -98,7 +99,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves.ConfigFile
 
 
         /// <summary>
-        /// 获取一个布尔值属性，表示 EF 读写分离服务配置环境中是否允许当 Master 服务器离线后自动将 Slave 服务器节点作为 Master 服务器使用。
+        /// 获取或设置一个布尔值属性，表示 EF 读写分离服务配置环境中是否允许当 Master 服务器离线后自动将 Slave 服务器节点作为 Master 服务器使用。
         /// <para>备注：Master 服务器提供数据写入功能，而 Slave 服务器提供数据只读功能。</para>
         /// <para>在 Master 服务器离线后，将 Slave 服务器作为 Master 服务器使用能使在 Master 故障后应用程序不离线，但是同样也会带来在 Slave 服务器节点之间的数据一致性问题。</para>
         /// <para>该属性默认值为 false。</para>
@@ -111,7 +112,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves.ConfigFile
         }
 
         /// <summary>
-        /// 获取一个布尔值属性，表示 EF 读写分离服务配置环境中是否允许当所有的 Slave 服务器离线后自动将 Master 服务器节点作为 Slave 服务器使用。
+        /// 获取或设置一个布尔值属性，表示 EF 读写分离服务配置环境中是否允许当所有的 Slave 服务器离线后自动将 Master 服务器节点作为 Slave 服务器使用。
         /// <para>备注：Master 服务器提供数据写入功能，而 Slave 服务器提供数据只读功能。</para>
         /// <para>在 Slave 服务器离线后，将 Master 服务器作为 Slave 服务器使用虽然一定程度上会增大 Master 服务器的查询压力，但是可以避免应用程序离线。</para>
         /// <para>该属性默认值为 true。</para>
@@ -124,7 +125,7 @@ namespace NDF.Data.EntityFramework.MasterSlaves.ConfigFile
         }
 
         /// <summary>
-        /// 获取一个布尔值属性，表示 EF 读写分离服务配置环境中是否在每次执行 Query 请求时随机选择 <see cref="SlaveConnectionStrings"/> 集合中的任意一台可用的 Slave 服务器节点作为查询服务器使用。
+        /// 获取或设置一个布尔值属性，表示 EF 读写分离服务配置环境中是否在每次执行 Query 请求时随机选择 <see cref="SlaveConnectionStrings"/> 集合中的任意一台可用的 Slave 服务器节点作为查询服务器使用。
         /// <para>如果该属性定位为 false，EF 读写分离服务将在每次执行 Query 请求时按照 <see cref="SlaveConnectionStringElement.Order"/> 属性定义的值（如果未定义该属性则按配置节的定义顺序）的（按最小值）优先顺序选择  <see cref="SlaveConnectionStrings"/> 集合中的 <see cref="SlaveConnectionStringElement"/> 元素。</para>
         /// <para>该属性默认值为 true。</para>
         /// </summary>
@@ -137,17 +138,28 @@ namespace NDF.Data.EntityFramework.MasterSlaves.ConfigFile
 
 
         /// <summary>
-        /// 获取一个 int 数值属性，表示当 EF 读写分离服务配置环境中定义了多个 Slave 节点时，系统轮询扫描检测每个 Slave 服务器节点在线状态的时间间隔。
+        /// 获取或设置一个 int 数值属性，表示当 EF 读写分离服务配置环境中定义了多个数据库服务器节点时，系统轮询扫描检测每个服务器节点可用状态的时间间隔。
         /// <para>该属性值单位为 秒。</para>
-        /// <para>如果该属性值定义为 0，则表示不轮询扫描每个 Slave 服务器节点的在线状态。</para>
-        /// <para>该属性默认值为 0，即表示不开启 Slave 服务器节点的在线状态扫描功能。</para>
+        /// <para>如果该属性值定义为 0，则表示不轮询扫描每服务器节点的在线状态。</para>
+        /// <para>该属性默认值为 0，即表示不开启服务器节点的在线状态扫描功能。</para>
         /// <para>该属性值不能小于 30，如果被设定为一个小于 30 的值，将会自动取值 30。</para>
         /// </summary>
-        [ConfigurationProperty(_SlaveScanInterval_Key, DefaultValue = 0)]
-        public int SlaveScanInterval
+        [ConfigurationProperty(_ServerStateScanInterval_Key, DefaultValue = 0)]
+        public int ServerStateScanInterval
         {
-            get { return Math.Max((int)this[_SlaveScanInterval_Key], 30); }
-            set { this[_SlaveScanInterval_Key] = value; }
+            get { return Math.Max((int)this[_ServerStateScanInterval_Key], 30); }
+            set { this[_ServerStateScanInterval_Key] = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置一个布尔值属性，表示 EF 读写分离服务配置环境中是否在每次轮询扫描检测每个服务器节点可用状态时，是否排除检测已经标记为离线的数据库服务器节点。
+        /// <para>该属性默认值为 false，即每次检测时都检测已配置的所有数据库服务器节点。</para>
+        /// </summary>
+        [ConfigurationProperty(_ServerStateScanWithNoOffline_Key, DefaultValue = true)]
+        public bool ServerStateScanWithNoOffline
+        {
+            get { return (bool)this[_ServerStateScanWithNoOffline_Key]; }
+            set { this[_ServerStateScanWithNoOffline_Key] = value; }
         }
 
 

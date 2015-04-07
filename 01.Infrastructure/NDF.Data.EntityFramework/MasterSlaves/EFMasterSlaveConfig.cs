@@ -20,8 +20,8 @@ namespace NDF.Data.EntityFramework.MasterSlaves
         /// <param name="contextType"></param>
         public static void Register(Type contextType)
         {
-            DbMasterSlaveCommandInterceptor interceptor = new DbMasterSlaveCommandInterceptor(contextType);
-            DbInterception.Add(interceptor);
+            DbInterceptors interceptors = new DbInterceptors(contextType);
+            interceptors.Register();
         }
 
     }

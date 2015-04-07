@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NDF.Data.EntityFramework.MasterSlaves
 {
     /// <summary>
-    /// 表示 EF 读写分离服务中数据库服务器的连接状态。
+    /// 表示 EF 读写分离服务中数据库服务器节点的可用（连接）状态。
     /// </summary>
     public enum DbServerState
     {

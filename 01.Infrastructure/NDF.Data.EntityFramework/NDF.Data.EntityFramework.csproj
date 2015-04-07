@@ -97,15 +97,24 @@
     <Compile Include="MasterSlaves\ConfigFile\MasterConnectionStringElement.cs" />
     <Compile Include="MasterSlaves\ConfigFile\SlaveConnectionStringCollection.cs" />
     <Compile Include="MasterSlaves\ConfigFile\SlaveConnectionStringElement.cs" />
-    <Compile Include="MasterSlaves\ConnectionStringEqualityComparer.cs" />
+    <Compile Include="MasterSlaves\DbInterceptors.cs" />
     <Compile Include="MasterSlaves\DbMasterSlaveCommandInterceptor.cs" />
+    <Compile Include="MasterSlaves\DbMasterSlaveConnectionInterceptor.cs" />
     <Compile Include="MasterSlaves\DbServer.cs" />
+    <Compile Include="MasterSlaves\DbServerStateScanEventArgs.cs" />
+    <Compile Include="MasterSlaves\DbServerStateScanEventHandler.cs" />
     <Compile Include="MasterSlaves\DbServerStateScanner.cs" />
+    <Compile Include="MasterSlaves\DbServerType.cs" />
     <Compile Include="MasterSlaves\EFMasterSlaveConfig.cs" />
-    <Compile Include="MasterSlaves\SlaveServer.cs" />
-    <Compile Include="MasterSlaves\SlaveServerCollection.cs" />
-    <Compile Include="MasterSlaves\MasterServer.cs" />
-    <Compile Include="MasterSlaves\MasterSlaveContextConfig.cs" />
+    <Compile Include="MasterSlaves\Interception\IMasterSlaveInterceptor.cs" />
+    <Compile Include="MasterSlaves\Interception\MasterSlaveDispatcher.cs" />
+    <Compile Include="MasterSlaves\Interception\MasterSlaveInterception.cs" />
+    <Compile Include="MasterSlaves\Interception\MasterSlaveInterceptor.cs" />
+    <Compile Include="Interception\NullDbConnectionInterceptor.cs" />
+    <Compile Include="MasterSlaves\DbSlaveServer.cs" />
+    <Compile Include="MasterSlaves\DbSlaveServerCollection.cs" />
+    <Compile Include="MasterSlaves\DbMasterServer.cs" />
+    <Compile Include="MasterSlaves\DbMasterSlaveConfigContext.cs" />
     <Compile Include="MasterSlaves\DbServerState.cs" />
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\MigrationDatabaseIfModelChanges.cs" />
@@ -135,6 +144,7 @@
   <ItemGroup>
     <Content Include="MasterSlaves\readme.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
