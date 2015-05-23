@@ -12,7 +12,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
     /// <summary>
     /// Represents a stored procedure call to the database that will return an enumerable of <typeparamref name="TResult"/>.
     /// </summary>
-    /// <typeparam name="TResult">The element type that will be used to consume the result set.</typeparam>
+    /// <typeparam name="TResult">The targetElement type that will be used to consume the result set.</typeparam>
     public class OracleSprocAccessor<TResult> : CommandAccessor<TResult>
     {
         readonly IParameterMapper parameterMapper;

@@ -111,11 +111,11 @@ namespace NDF.Utilities
         /// 检查条件函数的运算结果；如果条件函数运算结果为 false，则显示一个消息框，其中会显示调用堆栈。
         /// </summary>
         /// <param name="condition">要计算的条件表达式运算函数。 如果条件为 true，则不发送失败消息，并且不显示消息框。</param>
-        /// <param name="throwError">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
+        /// <param name="abortOnFailed">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
         [Conditional("DEBUG")]
-        public static void NotTrue(Func<bool?> condition, bool throwError = false)
+        public static void NotTrue(Func<bool?> condition, bool abortOnFailed = false)
         {
-            bool? b = throwError ? condition() : Utility.TryCatchExecute(condition);
+            bool? b = abortOnFailed ? condition() : Trying.Try(condition);
             Debug.Assert(b.HasValue ? b.Value : false);
         }
 
@@ -124,11 +124,11 @@ namespace NDF.Utilities
         /// </summary>
         /// <param name="condition">要计算的条件表达式运算函数。 如果条件为 true，则不发送指定消息，并且不显示消息框。</param>
         /// <param name="message">要发送给 System.Diagnostics.Trace.Listeners 集合的消息。</param>
-        /// <param name="throwError">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
+        /// <param name="abortOnFailed">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
         [Conditional("DEBUG")]
-        public static void NotTrue(Func<bool?> condition, string message, bool throwError = false)
+        public static void NotTrue(Func<bool?> condition, string message, bool abortOnFailed = false)
         {
-            bool? b = throwError ? condition() : Utility.TryCatchExecute(condition);
+            bool? b = abortOnFailed ? condition() : Trying.Try(condition);
             Debug.Assert(b.HasValue ? b.Value : false, message);
         }
 
@@ -138,11 +138,11 @@ namespace NDF.Utilities
         /// <param name="condition">要计算的条件表达式运算函数。 如果条件为 true，则不发送指定消息，并且不显示消息框。</param>
         /// <param name="message">要发送给 <see cref="System.Diagnostics.Trace.Listeners"/> 集合的消息。</param>
         /// <param name="detailMessage">要发送给 <see cref="System.Diagnostics.Trace.Listeners"/> 集合的详细消息。</param>
-        /// <param name="throwError">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
+        /// <param name="abortOnFailed">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
         [Conditional("DEBUG")]
-        public static void NotTrue(Func<bool?> condition, string message, string detailMessage, bool throwError = false)
+        public static void NotTrue(Func<bool?> condition, string message, string detailMessage, bool abortOnFailed = false)
         {
-            bool? b = throwError ? condition() : Utility.TryCatchExecute(condition);
+            bool? b = abortOnFailed ? condition() : Trying.Try(condition);
             Debug.Assert(b.HasValue ? b.Value : false, message, detailMessage);
         }
 
@@ -155,12 +155,12 @@ namespace NDF.Utilities
         /// 要发送到 <see cref="System.Diagnostics.Trace.Listeners"/> 集合的复合格式字符串（见“备注”）。 该消息包含与零个或多个格式项混合的文本，它与
         ///     args 数组中的对象相对应。
         /// </param>
-        /// <param name="throwError">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
+        /// <param name="abortOnFailed">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
         /// <param name="args">一个对象数组，其中包含零个或多个要设置格式的对象。</param>
         [Conditional("DEBUG")]
-        public static void NotTrue(Func<bool?> condition, string message, string detailMessage, bool throwError = false, params object[] args)
+        public static void NotTrue(Func<bool?> condition, string message, string detailMessage, bool abortOnFailed = false, params object[] args)
         {
-            bool? b = throwError ? condition() : Utility.TryCatchExecute(condition);
+            bool? b = abortOnFailed ? condition() : Trying.Try(condition);
             Debug.Assert(b.HasValue ? b.Value : false, message, detailMessage, args);
         }
 

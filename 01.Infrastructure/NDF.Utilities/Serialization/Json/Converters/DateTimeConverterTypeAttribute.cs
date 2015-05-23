@@ -60,11 +60,11 @@ namespace NDF.Serialization.Json.Converters
 
         /// <summary>
         /// 在当前属性标记类型对象未指定 <seealso cref="ConverterType"/> 属性时，默认所使用的日期 JSON 序列化格式转换类型。
-        /// 该值为 <see cref="NDF.Serialization.Json.Converters.GeneralDateConverter"/> 所表示的类型定义。
+        /// 该值为 <see cref="NDF.Serialization.Json.Converters.GeneralDateTimeConverter"/> 所表示的类型定义。
         /// </summary>
         public static Type DefaultConverterType
         {
-            get { return typeof(GeneralDateConverter); }
+            get { return typeof(GeneralDateTimeConverter); }
         }
     }
 }

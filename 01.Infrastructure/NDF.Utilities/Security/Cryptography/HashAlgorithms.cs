@@ -235,7 +235,7 @@ namespace NDF.Security.Cryptography
 
             byte[] hash = InternalComputeHash(algorithmType, StringToBytes(plaintext), key);
             string hashText = BytesToString(hash);
-            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.InvariantCultureIgnoreCase);
+            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool InternalCompareHash(string plaintext, string ciphertext, string hashName, byte[] key)
@@ -245,7 +245,7 @@ namespace NDF.Security.Cryptography
 
             byte[] hash = InternalComputeHash(hashName, StringToBytes(plaintext), key);
             string hashText = BytesToString(hash);
-            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.InvariantCultureIgnoreCase);
+            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -358,7 +358,7 @@ namespace NDF.Security.Cryptography
                 return false;
 
             string hashText = MD516(plaintext);
-            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.InvariantCultureIgnoreCase);
+            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool CompareMD516(string plaintext, string ciphertext, byte[] key)
@@ -368,7 +368,7 @@ namespace NDF.Security.Cryptography
 
             byte[] hash = MD516(StringToBytes(plaintext), key);
             string hashText = BytesToString(hash);
-            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.InvariantCultureIgnoreCase);
+            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool CompareMD516(string plaintext, string ciphertext, string key)
@@ -377,7 +377,7 @@ namespace NDF.Security.Cryptography
                 return false;
 
             string hashText = MD516(plaintext, key);
-            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.InvariantCultureIgnoreCase);
+            return hashText.Equals(ciphertext.Replace("-", "").Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

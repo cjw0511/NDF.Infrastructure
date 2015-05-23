@@ -15,6 +15,36 @@ namespace NDF.Utilities
     /// </summary>
     public static class StringExtensions
     {
+
+        /// <summary>
+        /// 返回一个值，该值指示指定的 <see cref="System.String"/> 对象是否出现在此字符串中。
+        ///  一个参数指定要用于指定字符串的搜索类型。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="value">要搜寻的字符串。</param>
+        /// <param name="comparisonType">指定搜索规则的枚举值之一。</param>
+        /// <returns>如果 value 参数出现在此字符串中，或者 value 为空字符串 ("")，则为 true；否则为 false。</returns>
+        public static bool Contains(this string str, string value, StringComparison comparisonType)
+        {
+            return str.IndexOf(value, comparisonType) >= 0;
+        }
+
+        /// <summary>
+        /// 返回一个值，该值指示指定的 <see cref="System.String"/> 对象是否出现在此字符串中。
+        /// 一个参数指定搜索字符串时是否忽略其大小写。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="value">要搜寻的字符串。</param>
+        /// <param name="ignoreCase">指定搜索字符串时是否忽略其大小写。</param>
+        /// <returns>如果 value 参数出现在此字符串中，或者 value 为空字符串 ("")，则为 true；否则为 false。</returns>
+        public static bool Contains(this string str, string value, bool ignoreCase)
+        {
+            return ignoreCase
+                ? str.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0
+                : str.IndexOf(value, StringComparison.Ordinal) >= 0;
+        }
+
+
         /// <summary>
         /// 将 GUID 的字符串表示形式转换为等效的 <see cref="System.Guid"/> 结构。
         /// </summary>
@@ -347,7 +377,7 @@ namespace NDF.Utilities
             if (friendly)
             {
                 string[] array = { "true", "t", "1", "yes", "y", "genuine", "right", "r", "checked" };
-                if (array.Contains(value, StringComparer.InvariantCultureIgnoreCase))
+                if (array.Contains(value, StringComparer.OrdinalIgnoreCase))
                     return true;
             }
             bool ret;
@@ -1172,7 +1202,7 @@ namespace NDF.Utilities
                 return false;
             }
             sId = Regex.Replace(sId, "x$", "a", RegexOptions.IgnoreCase);
-            if (Dictionaries.IDCardAreas.Select(pair => pair.Key).Contains(sId.Substring(0, 2), StringComparer.InvariantCultureIgnoreCase))
+            if (Dictionaries.IDCardAreas.Select(pair => pair.Key).Contains(sId.Substring(0, 2), StringComparer.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -1288,7 +1318,7 @@ namespace NDF.Utilities
             if (!b)
             {
                 var tmp = str.Trim();
-                b = tmp.StartsWith("function", StringComparison.InvariantCulture) && tmp.EndsWith("}", StringComparison.InvariantCulture);
+                b = tmp.StartsWith("function", StringComparison.Ordinal) && tmp.EndsWith("}", StringComparison.Ordinal);
             }
             return b;
         }

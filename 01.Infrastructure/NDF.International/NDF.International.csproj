@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFAE79DE-90CE-4D9D-80FD-E8F6E8428ECF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NDF.International</RootNamespace>
+    <AssemblyName>NDF.International</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NDF.International.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chinese\ChineseChar.cs" />
+    <Compile Include="Chinese\ChineseWord.cs" />
+    <Compile Include="Chinese\Conversion\ChineseConversionDirection.cs" />
+    <Compile Include="Chinese\Conversion\ChineseConverter.cs" />
+    <Compile Include="Chinese\Conversion\NativeMethods.cs" />
+    <Compile Include="Formatting\EastAsiaFormatter.cs" />
+    <Compile Include="Formatting\EastAsiaNumericFormatter.cs" />
+    <Compile Include="Formatting\Formatters\CHFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHSCurFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHSNorFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHSStdFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHTCurFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHTNorFmt.cs" />
+    <Compile Include="Formatting\Formatters\CHTStdFmt.cs" />
+    <Compile Include="Formatting\Formatters\JPNFmt.cs" />
+    <Compile Include="Formatting\Formatters\JPNNorFmt.cs" />
+    <Compile Include="Formatting\Formatters\JPNStdFmt.cs" />
+    <Compile Include="Formatting\Formatters\JPNTraFmt.cs" />
+    <Compile Include="Formatting\Formatters\KORCurFmt.cs" />
+    <Compile Include="Formatting\Formatters\KORFmt.cs" />
+    <Compile Include="Formatting\Formatters\KORStdFmt.cs" />
+    <Compile Include="Chinese\Conversion\NumericConversionDirection.cs" />
+    <Compile Include="Chinese\Conversion\NumericConverter.cs" />
+    <Compile Include="Chinese\Conversion\OfficeConversionEngine.cs" />
+    <Compile Include="Formatting\StackWithIndex.cs" />
+    <Compile Include="Chinese\Internal\ChineseCharUnit.cs" />
+    <Compile Include="Chinese\Internal\ChineseResources.cs" />
+    <Compile Include="Chinese\Internal\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Chinese\PinYins\PinYin.cs" />
+    <Compile Include="Chinese\PinYins\Tone.cs" />
+    <Compile Include="Chinese\PinYins\ToneHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Formatting\readme.txt" />
+    <Content Include="license.txt" />
+    <Content Include="readme.txt" />
+    <None Include="Resources\ChineseChars.dat" />
+    <None Include="Resources\ChineseCharsBitMap.dat" />
+    <None Include="Resources\ChineseCharUnits.dat" />
+    <None Include="Resources\ChinesePinYins.dat" />
+    <None Include="Resources\PinYinCharDictionary.dat" />
+    <None Include="Resources\StrokeNumberCharDictionary.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Chinese\Internal\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

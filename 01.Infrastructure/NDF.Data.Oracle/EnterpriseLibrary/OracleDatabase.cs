@@ -600,7 +600,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// The conversion from <see cref="IDataRecord"/> to <typeparamref name="TResult"/> will be done for each property based on matching property name to column name.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="parameterValues">Parameter values passsed to the stored procedure.</param>
         /// <returns>An enumerable of <typeparamref name="TResult"/>.</returns>
@@ -614,7 +614,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// The conversion from <see cref="IDataRecord"/> to <typeparamref name="TResult"/> will be done for each property based on matching property name to column name.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="parameterMapper">The <see cref="IParameterMapper"/> that will be used to interpret the parameters passed to the Execute method.</param>
         /// <param name="parameterValues">Parameter values passsed to the stored procedure.</param>
@@ -628,7 +628,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// <summary>
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="rowMapper">The <see cref="IRowMapper&lt;TResult&gt;"/> that will be used to convert the returned data to clr type <typeparamref name="TResult"/>.</param>
         /// <param name="parameterValues">Parameter values passsed to the stored procedure.</param>
@@ -642,7 +642,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// <summary>
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="parameterMapper">The <see cref="IParameterMapper"/> that will be used to interpret the parameters passed to the Execute method.</param>
         /// <param name="rowMapper">The <see cref="IRowMapper&lt;TResult&gt;"/> that will be used to convert the returned data to clr type <typeparamref name="TResult"/>.</param>
@@ -657,7 +657,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// <summary>
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="resultSetMapper">The <see cref="IResultSetMapper&lt;TResult&gt;"/> that will be used to convert the returned set to an enumerable of clr type <typeparamref name="TResult"/>.</param>
         /// <param name="parameterValues">Parameter values passsed to the stored procedure.</param>
@@ -671,7 +671,7 @@ namespace NDF.Data.Oracle.EnterpriseLibrary
         /// <summary>
         /// Executes a stored procedure and returns the result as an enumerable of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TResult">The element type that will be returned when executing.</typeparam>
+        /// <typeparam name="TResult">The targetElement type that will be returned when executing.</typeparam>
         /// <param name="procedureName">The name of the stored procedure that will be executed.</param>
         /// <param name="parameterMapper">The <see cref="IParameterMapper"/> that will be used to interpret the parameters passed to the Execute method.</param>
         /// <param name="resultSetMapper">The <see cref="IResultSetMapper&lt;TResult&gt;"/> that will be used to convert the returned set to an enumerable of clr type <typeparamref name="TResult"/>.</param>

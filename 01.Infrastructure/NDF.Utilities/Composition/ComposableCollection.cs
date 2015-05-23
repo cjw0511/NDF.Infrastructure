@@ -18,7 +18,7 @@ namespace NDF.Composition
         /// </summary>
         protected ComposableCollection()
         {
-            MefCompositions.ComposeParts(this);
+            Compositions.ComposeParts(this);
         }
 
 

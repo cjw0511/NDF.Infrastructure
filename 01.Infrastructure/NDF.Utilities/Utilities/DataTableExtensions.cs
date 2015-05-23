@@ -22,12 +22,15 @@ namespace NDF.Utilities
         public static string[] GetColumnNames(this DataTable _this)
         {
             Check.NotNull(_this);
-            List<string> list = new List<string>();
-            foreach (DataColumn column in _this.Columns)
+
+            DataColumnCollection columns = _this.Columns;
+            string[] names = new string[columns.Count];
+
+            for (int i = 0; i < columns.Count; i++)
             {
-                list.Add(column.ColumnName);
+                names[i] = columns[i].ColumnName;
             }
-            return list.ToArray();
+            return names;
         }
 
 

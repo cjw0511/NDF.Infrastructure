@@ -11,7 +11,7 @@ namespace NDF.ComponentModel.Paging
     /// <summary>
     /// 表示可用于将序列数据集合进行分页处理的数据分页器。
     /// </summary>
-    public class DataPager : Disposable
+    public class DataPager
     {
         private int _pageSize;
         private int _pageIndex;
@@ -202,5 +202,6 @@ namespace NDF.ComponentModel.Paging
             get { return _defaultPageSize < 1 ? 10 : _defaultPageSize; }
             set { _defaultPageSize = value > 0 ? value : 10; }
         }
+
     }
 }

@@ -95,14 +95,14 @@ namespace NDF.Utilities
         /// </summary>
         /// <param name="condition">被检查的条件参数，该参数是一个运算结果为 System.Nullable&gt;bool?&lt; 类型值的委托。</param>
         /// <param name="message">当被检查的条件参数 <paramref name="condition"/> 函数运算结果不为真(true)时，抛出的 <see cref="System.InvalidOperationException"/> 异常中所带的消息。</param>
-        /// <param name="throwError">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
+        /// <param name="abortOnFailed">指定在指定函数 <paramref name="condition"/> 时，是否屏蔽其执行过程中可能会抛出的异常。</param>
         /// <returns>如果条件参数 <paramref name="condition"/> 运算结果为真(true)，则返回 true。</returns>
         /// <exception cref="System.ArgumentNullException">如果被检查的条件参数为 Null 时，则抛出该异常。</exception>
         /// <exception cref="System.InvalidOperationException">如果被检查的条件参数 <paramref name="condition"/> 运算结果不为真(true)，则抛出该异常。</exception>
-        public static bool NotTrue(Func<bool?> condition, string message, bool throwError = false)
+        public static bool NotTrue(Func<bool?> condition, string message, bool abortOnFailed = false)
         {
             Check.NotNull(condition);
-            bool? b = throwError ? condition() : Utility.TryCatchExecute(condition);
+            bool? b = abortOnFailed ? condition() : Trying.Try(condition);
             bool ret = b.HasValue ? b.HasValue : false;
             return NotTrue(ret, message);
         }
@@ -145,7 +145,7 @@ namespace NDF.Utilities
         /// </summary>
         /// <param name="value">被检查的参数值。</param>
         /// <returns>如果 <paramref name="value"/> 值不为 Null、空或者空白字符串组成 ，则返回 <paramref name="value"/> 参数去除首尾空格后的结果。</returns>
-        /// <exception cref="System.ArgumentException">如果 <paramref name="value"/> 值为 Null、空或者空白字符串组成，则抛出该异常。</exception>
+        /// <exception cref="System.ArgumentNullException">如果 <paramref name="value"/> 值为 Null、空或者空白字符串组成，则抛出该异常。</exception>
         public static string EmptyCheck(string value)
         {
             return EmptyCheck(value, "value");
@@ -158,7 +158,7 @@ namespace NDF.Utilities
         /// <param name="value">被检查的参数值。</param>
         /// <param name="parameterName">被检查的参数名称。</param>
         /// <returns>如果 <paramref name="value"/> 值不为 Null、空或者空白字符串组成 ，则返回 <paramref name="value"/> 参数去除首尾空格后的结果。</returns>
-        /// <exception cref="System.ArgumentException">如果 <paramref name="value"/> 值为 Null、空或者空白字符串组成，则抛出该异常。</exception>
+        /// <exception cref="System.ArgumentNullException">如果 <paramref name="value"/> 值为 Null、空或者空白字符串组成，则抛出该异常。</exception>
         public static string EmptyCheck(string value, string parameterName)
         {
             value = value != null ? value.Trim() : value;
@@ -316,7 +316,6 @@ namespace NDF.Utilities
 
 
 
-
         /// <summary>
         /// 检查输入的数组参数 <paramref name="values"/> 中应存在至少一个元素的值不能为 Null；
         /// 如果不是，则抛出 <see cref="System.ArgumentException"/> 异常；否则返回 <paramref name="values"/> 值本身。
@@ -350,8 +349,6 @@ namespace NDF.Utilities
             }
             return values;
         }
-
-
 
 
 
@@ -531,7 +528,6 @@ namespace NDF.Utilities
             }
             return array;
         }
-
 
 
 

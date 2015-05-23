@@ -90,15 +90,15 @@ namespace NDF.Utilities
         /// 表示将要用于复制数据到另一对象的元数据对象。
         /// 如果该参数值为 Null，将不会执行复制操作。
         /// </param>
-        /// <param name="element">表示一个目标对象，该对象中的相应属性值将会被更改。</param>
-        /// <param name="throwError">一个布尔类型值，该值指示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
-        public static void CopyTo(this object _this, object element, bool throwError = false)
+        /// <param name="targetElement">表示一个目标对象，该对象中的相应属性值将会被更改。</param>
+        /// <param name="abortOnFailed">一个布尔类型值，该值指示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
+        public static void CopyTo(this object _this, object targetElement, bool abortOnFailed = false)
         {
             if (_this == null)
                 return;
 
-            Check.NotNull(element);
-            Type thisType = _this.GetType(), elemType = element.GetType();
+            Check.NotNull(targetElement);
+            Type thisType = _this.GetType(), elemType = targetElement.GetType();
 
             var thisProps = thisType.GetProperties().Where(p => p.GetMethod != null);
             var elemProps = elemType.GetProperties().Where(p => p.SetMethod != null);
@@ -107,10 +107,10 @@ namespace NDF.Utilities
                 PropertyInfo elemProperty = elemProps.FirstOrDefault(p => p.Name == thisProperty.Name);
                 if (elemProperty != null && elemProperty.PropertyType.IsAssignableFrom(thisProperty.PropertyType))
                 {
-                    if (throwError)
-                        elemProperty.SetValue(element, thisProperty.GetValue(_this));
+                    if (abortOnFailed)
+                        elemProperty.SetValue(targetElement, thisProperty.GetValue(_this));
                     else
-                        Utility.TryCatchExecute(() => elemProperty.SetValue(element, thisProperty.GetValue(_this)));
+                        Trying.Try(() => elemProperty.SetValue(targetElement, thisProperty.GetValue(_this)));
                 }
             }
 
@@ -121,10 +121,10 @@ namespace NDF.Utilities
                 FieldInfo elemField = elemFields.FirstOrDefault(f => f.Name == thisField.Name);
                 if (elemField != null && elemField.FieldType.IsAssignableFrom(thisField.FieldType))
                 {
-                    if (throwError)
-                        elemField.SetValue(element, thisField.GetValue(_this));
+                    if (abortOnFailed)
+                        elemField.SetValue(targetElement, thisField.GetValue(_this));
                     else
-                        Utility.TryCatchExecute(() => elemField.SetValue(element, thisField.GetValue(_this)));
+                        Trying.Try(() => elemField.SetValue(targetElement, thisField.GetValue(_this)));
                 }
             }
         }
@@ -137,12 +137,12 @@ namespace NDF.Utilities
         /// </summary>
         /// <param name="_this">要转换的对象。</param>
         /// <param name="resultType">要转换的目标实体类型。</param>
-        /// <param name="throwError">一个布尔类型值，该值表示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
+        /// <param name="abortOnFailed">一个布尔类型值，该值表示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
         /// <returns>
         /// 该方法首先判断 <paramref name="_this"/> 是否为 <paramref name="resultType"/> 指定的类型，如果是，则直接返回 <paramref name="_this"/>；
         /// 否则将通过 Activator.CreateInstance(resultType) 方法创建一个 <paramref name="resultType"/> 类型的对象，然后查找出该类型对象有哪些公共属性值，将 <paramref name="_this"/> 对象的对应属性值复制到新创建的对象中。
         /// </returns>
-        public static object CastTo(this object _this, Type resultType, bool throwError = false)
+        public static object CastTo(this object _this, Type resultType, bool abortOnFailed = false)
         {
             Check.NotNull(_this);
             Check.NotNull(resultType);
@@ -151,7 +151,7 @@ namespace NDF.Utilities
                 return _this;
             }
             object ret = Activator.CreateInstance(resultType);
-            _this.CopyTo(ret, throwError);
+            _this.CopyTo(ret, abortOnFailed);
             return ret;
         }
 
@@ -162,12 +162,12 @@ namespace NDF.Utilities
         /// </summary>
         /// <typeparam name="TResult">要转换的目标实体类型。</typeparam>
         /// <param name="_this">要转换的对象。</param>
-        /// <param name="throwError">一个布尔类型值，该值表示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
+        /// <param name="abortOnFailed">一个布尔类型值，该值表示在复制数据过程中如果出现异常，是否立即停止并抛出异常，默认为 false。</param>
         /// <returns>
         /// 该方法首先判断 <paramref name="_this"/> 是否为 <typeparamref name="TResult"/> 指定的类型，如果是，则直接返回 <paramref name="_this"/>；
         /// 否则将通过 Activator.CreateInstance(resultType) 方法创建一个 <typeparamref name="TResult"/> 类型的对象，然后查找出该类型对象有哪些公共属性值，将 <paramref name="_this"/> 对象的对应属性值复制到新创建的对象中。
         /// </returns>
-        public static TResult CastTo<TResult>(this object _this, bool throwError = false)
+        public static TResult CastTo<TResult>(this object _this, bool abortOnFailed = false)
         {
             if (_this is TResult)
             {
@@ -175,7 +175,7 @@ namespace NDF.Utilities
             }
             Check.NotNull(_this);
             TResult ret = (TResult)Activator.CreateInstance(typeof(TResult));
-            _this.CopyTo(ret, throwError);
+            _this.CopyTo(ret, abortOnFailed);
             return ret;
         }
 
@@ -186,9 +186,9 @@ namespace NDF.Utilities
         /// 相当于浅表复制操作 Object.MemberwiseClone，但和 Object.MemberwiseClone 不同的是该操作只对公共 Public 的可 set 属性进行复制，并且不会复制其他字段或私有成员的值。
         /// </summary>
         /// <param name="_this"></param>
-        /// <param name="throwError"></param>
+        /// <param name="abortOnFailed"></param>
         /// <returns></returns>
-        public static object Duplicate(this object _this, bool throwError = false)
+        public static object Duplicate(this object _this, bool abortOnFailed = false)
         {
             if (_this == null)
                 return null;
@@ -201,7 +201,7 @@ namespace NDF.Utilities
                 return ((ICloneable)_this).Clone();
 
             Object obj = Activator.CreateInstance(thisType);
-            _this.CopyTo(obj, throwError);
+            _this.CopyTo(obj, abortOnFailed);
             return obj;
         }
 
@@ -211,9 +211,9 @@ namespace NDF.Utilities
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="_this"></param>
-        /// <param name="throwError"></param>
+        /// <param name="abortOnFailed"></param>
         /// <returns></returns>
-        public static TSource Duplicate<TSource>(this TSource _this, bool throwError = false) where TSource : class, new()
+        public static TSource Duplicate<TSource>(this TSource _this, bool abortOnFailed = false) where TSource : class, new()
         {
             if (_this == null)
                 return null;
@@ -221,7 +221,7 @@ namespace NDF.Utilities
             Type thisType = typeof(TSource);
             if (thisType.IsAbstract)
             {
-                Object obj = Duplicate(_this as object, throwError);
+                Object obj = Duplicate(_this as object, abortOnFailed);
                 return obj == null ? null : obj as TSource;
             }
 
@@ -232,7 +232,7 @@ namespace NDF.Utilities
                 return ((ICloneable)_this).Clone() as TSource;
 
             TSource target = new TSource();
-            _this.CopyTo(target, throwError);
+            _this.CopyTo(target, abortOnFailed);
             return target;
         }
 

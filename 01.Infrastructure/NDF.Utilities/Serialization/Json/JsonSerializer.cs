@@ -68,7 +68,7 @@ namespace NDF.Serialization.Json
         private static JsonSerializerSettings GetDefaultSettings()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Converters.Add(DateTimeConverters.GeneralDate);
+            //settings.Converters.Add(DateTimeConverters.General);
             return settings;
         }
 
@@ -231,7 +231,7 @@ namespace NDF.Serialization.Json
         ///     by deserializeRootElementName.
         /// </summary>
         /// <param name="value">The JSON string.</param>
-        /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+        /// <param name="deserializeRootElementName">The name of the root targetElement to append when deserializing.</param>
         /// <returns>The deserialized XmlNode</returns>
         public XmlDocument DeserializeXml(string value, string deserializeRootElementName)
         {
@@ -243,7 +243,7 @@ namespace NDF.Serialization.Json
         ///     by deserializeRootElementName and writes a .NET array attribute for collections.
         /// </summary>
         /// <param name="value">The JSON string.</param>
-        /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+        /// <param name="deserializeRootElementName">The name of the root targetElement to append when deserializing.</param>
         /// <param name="writeArrayAttribute">
         /// A flag to indicate whether to write the Json.NET array attribute.  This attribute
         ///     helps preserve arrays when converting the written XML back to JSON.
@@ -271,7 +271,7 @@ namespace NDF.Serialization.Json
         ///     elment specified by deserializeRootElementName.
         /// </summary>
         /// <param name="value">The JSON string.</param>
-        /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+        /// <param name="deserializeRootElementName">The name of the root targetElement to append when deserializing.</param>
         /// <returns>The deserialized XNode</returns>
         public XDocument DeserializeXDoc(string value, string deserializeRootElementName)
         {
@@ -284,7 +284,7 @@ namespace NDF.Serialization.Json
         ///     for collections.
         /// </summary>
         /// <param name="value">The JSON string.</param>
-        /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+        /// <param name="deserializeRootElementName">The name of the root targetElement to append when deserializing.</param>
         /// <param name="writeArrayAttribute">
         /// A flag to indicate whether to write the Json.NET array attribute.  This attribute
         ///     helps preserve arrays when converting the written XML back to JSON.
@@ -302,7 +302,7 @@ namespace NDF.Serialization.Json
         /// Populates the object with values from the JSON string.
         /// </summary>
         /// <param name="value">The JSON to populate values from.</param>
-        /// <param name="target">The target object to populate values onto.</param>
+        /// <param name="target">The targetElement object to populate values onto.</param>
         public void Populate(string value, object target)
         {
             this.Populate(value, target, this.Settings);
@@ -312,7 +312,7 @@ namespace NDF.Serialization.Json
         /// Populates the object with values from the JSON string using Newtonsoft.Json.JsonSerializerSettings.
         /// </summary>
         /// <param name="value">The JSON to populate values from.</param>
-        /// <param name="target">The target object to populate values onto.</param>
+        /// <param name="target">The targetElement object to populate values onto.</param>
         /// <param name="settings">
         /// The Newtonsoft.Json.JsonSerializerSettings used to deserialize the object.
         ///     If this is null, default serialization settings will be used.

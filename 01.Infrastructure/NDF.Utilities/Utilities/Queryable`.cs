@@ -54,7 +54,7 @@ namespace NDF.Utilities
         {
             //Check.NotNull(_this);
             //string commandText = _this.ToString();
-            //bool isOrdered = commandText.IndexOf(" ORDER BY ", StringComparison.InvariantCultureIgnoreCase) > -1;
+            //bool isOrdered = commandText.IndexOf(" ORDER BY ", StringComparison.OrdinalIgnoreCase) > -1;
             //if (!isOrdered)
             //    _this = _this.OrderBy(item => 0);
 
@@ -74,7 +74,7 @@ namespace NDF.Utilities
         {
             //Check.NotNull(_this);
             //string commandText = _this.ToString();
-            //bool isOrdered = commandText.IndexOf(" ORDER BY ", StringComparison.InvariantCultureIgnoreCase) > -1;
+            //bool isOrdered = commandText.IndexOf(" ORDER BY ", StringComparison.OrdinalIgnoreCase) > -1;
             //if (!isOrdered)
             //    _this = _this.OrderBy(item => 0);
 

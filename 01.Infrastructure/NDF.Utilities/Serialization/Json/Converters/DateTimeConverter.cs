@@ -11,14 +11,14 @@ namespace NDF.Serialization.Json.Converters
 {
     /// <summary>
     /// 定义用于将 <see cref="System.DateTime"/> 日期时间对象转换为 JSON 字符串表示法转换器的非抽象基类。
-    /// 该类型定义计算机的区域设置中指定的标准日期时间格式。为："yyyy/MM/dd hh:mm:ss.fff"。
+    /// 该类型定义计算机的区域设置中指定的标准日期时间格式。为："yyyy/MM/dd HH:mm:ss"。
     /// </summary>
     /// <remarks>
     /// 可通过继承该类同时重写属性 <seealso cref="DateTimeFormat"/> 来快速实现日期时间对象自定义转换为 JSON 字符串的转换器。
     /// </remarks>
     public class DateTimeConverter : DateTimeConverterBase
     {
-        private const string DefaultDateTimeFormat = "yyyy/MM/dd hh:mm:ss.fff";
+        private const string _Default_DateTimeFormat = "yyyy/MM/dd HH:mm:ss";
 
         private string _dateTimeFormat;
         private DateTimeStyles _dateTimeStyles = DateTimeStyles.RoundtripKind;
@@ -44,7 +44,7 @@ namespace NDF.Serialization.Json.Converters
 
         /// <summary>
         /// 定义用于将 <see cref="System.DateTime"/> 日期时间对象转换为字符串的格式。
-        /// 该属性默认情况下返回 "yyyy/MM/dd hh:mm:ss.fff"。
+        /// 该属性默认情况下返回 "yyyy/MM/dd HH:mm:ss.fff"。
         /// </summary>
         /// <remarks>
         /// 具体日期时间转字符串的格式化字符串语法规则参考：http://msdn.microsoft.com/ZH-CN/library/8kb3ddd4(v=VS.110,d=hv.2).aspx。
@@ -53,7 +53,7 @@ namespace NDF.Serialization.Json.Converters
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this._dateTimeFormat) ? DefaultDateTimeFormat : this._dateTimeFormat;
+                return string.IsNullOrWhiteSpace(this._dateTimeFormat) ? _Default_DateTimeFormat : this._dateTimeFormat;
             }
         }
 

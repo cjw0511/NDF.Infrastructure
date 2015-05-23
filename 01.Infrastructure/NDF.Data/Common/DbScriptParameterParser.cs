@@ -15,7 +15,8 @@ namespace NDF.Data.Common
     {
         private string _parameterToken;
         private string _providerName;
-        static Dictionary<string, DbScriptParameterParser> _scriptParameterParserCache;
+        private static Lazy<Dictionary<string, DbScriptParameterParser>> _scriptParameterParserCache = new Lazy<Dictionary<string, DbScriptParameterParser>>(() => new Dictionary<string, DbScriptParameterParser>());
+        private static object _locker = new object();
 
         /// <summary>
         /// 初始化 <see cref="DbScriptParameterParser"/> 类型的实例。
@@ -68,7 +69,7 @@ namespace NDF.Data.Common
                     }
                 }
             }
-            return list.Distinct(StringComparer.CurrentCultureIgnoreCase).ToArray();
+            return list.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
         }
 
 
@@ -117,28 +118,29 @@ namespace NDF.Data.Common
         {
             Check.NotEmpty(providerName, "providerName");
             DbScriptParameterParser parser = null;
-            if (!DbScriptParameterParserCache.TryGetValue(providerName, out parser))
+            lock (_locker)
             {
-                Type type = typeof(DbScriptParameterParser).GetSubClass().FirstOrDefault(t =>
+                if (!DbScriptParameterParserCache.TryGetValue(providerName, out parser))
                 {
-                    var attribute = t.GetCustomAttributes(typeof(DbProviderAttribute), true).OfType<DbProviderAttribute>().FirstOrDefault();
-                    return attribute != null && attribute.ProviderName == providerName;
-                });
-                if (type == null)
-                {
-                    if (!DbProviderFactoryExtensions.DbProviderFactoryClasses.Any(item => item.InvariantName == providerName))
+                    Type type = typeof(DbScriptParameterParser).GetSubClass().FirstOrDefault(t =>
                     {
-                        throw new InvalidOperationException(string.Format(Resources.NotExistsAllowedDbProviderAttributeDbScriptParameterParser, providerName));
+                        var attribute = t.GetCustomAttributes(typeof(DbProviderAttribute), true).OfType<DbProviderAttribute>().FirstOrDefault();
+                        return attribute != null && attribute.ProviderName == providerName;
+                    });
+                    if (type == null)
+                    {
+                        if (!DbProviderFactoryExtensions.DbProviderFactoryClasses.Any(item => item.InvariantName == providerName))
+                        {
+                            throw new InvalidOperationException(string.Format(Resources.NotExistsAllowedDbProviderAttributeDbScriptParameterParser, providerName));
+                        }
+                        type = typeof(GenericScriptParameterParser);
                     }
-                    type = typeof(GenericScriptParameterParser);
+                    parser = Activator.CreateInstance(type, providerName) as DbScriptParameterParser;
+                    DbScriptParameterParserCache.Add(providerName, parser);
                 }
-                parser = Activator.CreateInstance(type, providerName) as DbScriptParameterParser;
-                DbScriptParameterParserCache.Add(providerName, parser);
             }
             return parser;
         }
-
-
 
 
         /// <summary>
@@ -146,14 +148,8 @@ namespace NDF.Data.Common
         /// </summary>
         internal static Dictionary<string, DbScriptParameterParser> DbScriptParameterParserCache
         {
-            get
-            {
-                if (_scriptParameterParserCache == null)
-                {
-                    _scriptParameterParserCache = new Dictionary<string, DbScriptParameterParser>();
-                }
-                return _scriptParameterParserCache;
-            }
+            get { return _scriptParameterParserCache.Value; }
         }
+
     }
 }

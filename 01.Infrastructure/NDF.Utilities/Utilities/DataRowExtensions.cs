@@ -55,20 +55,20 @@ namespace NDF.Utilities
                 object value = row[name];
                 if (value.IsNull() && !property.PropertyType.IsValueType)
                 {
-                    Utility.TryCatchExecute(() => property.SetValue(ret, property.PropertyType == typeof(DBNull) ? DBNull.Value : value));
+                    Trying.Try(() => property.SetValue(ret, property.PropertyType == typeof(DBNull) ? DBNull.Value : value));
                 }
                 else
                 {
                     if (property.PropertyType.IsAssignableFrom(value.GetType()))
                     {
-                        Utility.TryCatchExecute(() => property.SetValue(ret, value));
+                        Trying.Try(() => property.SetValue(ret, value));
                     }
                     else
                     {
                         if (value is IConvertible && property.PropertyType.IsImplementOf(typeof(IConvertible)))
                         {
                             object val = Convert.ChangeType(value, property.PropertyType);
-                            Utility.TryCatchExecute(() => property.SetValue(ret, val));
+                            Trying.Try(() => property.SetValue(ret, val));
                         }
                     }
                 }

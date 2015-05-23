@@ -256,7 +256,7 @@ namespace NDF.Utilities
         /// <returns>已加载至当前应用程序中指定程序集作用范围内的程序集中指定的命名空间中定义的所有类型 <see cref="System.Type"/> 集合所构成的一个数组。</returns>
         public static Type[] GetTypes(string nameSpace, AssemblyScope scope)
         {
-            return GetTypes(scope).Where(type => type.Namespace.Equals(nameSpace, StringComparison.CurrentCulture)).ToArray();
+            return GetTypes(scope).Where(type => string.Equals(nameSpace, type.Namespace, StringComparison.Ordinal)).ToArray();
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace NDF.Utilities
         /// <returns>已加载至当前应用程序中指定程序集作用范围内的程序集中指定的命名空间中定义的所有公共类型 <see cref="System.Type"/> 集合所构成的一个数组。</returns>
         public static Type[] GetPublicTypes(string nameSpace, AssemblyScope scope)
         {
-            return GetPublicTypes(scope).Where(type => type.Namespace.Equals(nameSpace, StringComparison.CurrentCulture)).ToArray();
+            return GetPublicTypes(scope).Where(type => string.Equals(nameSpace, type.Namespace, StringComparison.Ordinal)).ToArray();
         }
 
         /// <summary>

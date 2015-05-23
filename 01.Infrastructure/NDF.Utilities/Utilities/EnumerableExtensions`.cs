@@ -636,7 +636,7 @@ namespace NDF.Utilities
         public static IEnumerable<TResult> Map<TSource, TResult>(this IEnumerable<TSource> _this, Func<TSource, TResult> converter) where TResult : class
         {
             Check.NotNull(_this);
-            return _this.Select(item => Utility.TryCatchExecute(() => converter(item), () => null));
+            return _this.Select(item => Trying.Try(() => converter(item), (exception) => null));
         }
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace NDF.Utilities
         public static IEnumerable<TResult> Map<TSource, TResult>(this IEnumerable<TSource> _this, Func<TSource, TResult?> converter) where TResult : struct
         {
             Check.NotNull(_this);
-            return _this.Select(item => Utility.TryCatchExecute(() => converter(item), () => new Nullable<TResult>())).Where(item => item.HasValue).Select(item => item.Value);
+            return _this.Select(item => Trying.Try(() => converter(item), (exception) => new Nullable<TResult>())).Where(item => item.HasValue).Select(item => item.Value);
         }
 
         /// <summary>
@@ -670,7 +670,7 @@ namespace NDF.Utilities
         public static IEnumerable<TResult> Map<TSource, TResult>(this IEnumerable<TSource> _this, Func<TSource, int, TResult> converter) where TResult : class
         {
             Check.NotNull(_this);
-            return _this.Select((i, item) => Utility.TryCatchExecute(() => converter(i, item), () => null));
+            return _this.Select((i, item) => Trying.Try(() => converter(i, item), (exception) => null));
         }
 
         /// <summary>
@@ -687,7 +687,7 @@ namespace NDF.Utilities
         public static IEnumerable<TResult> Map<TSource, TResult>(this IEnumerable<TSource> _this, Func<TSource, int, TResult?> converter) where TResult : struct
         {
             Check.NotNull(_this);
-            return _this.Select((i, item) => Utility.TryCatchExecute(() => converter(i, item), () => new Nullable<TResult>())).Where(item => item.HasValue).Select(item => item.Value);
+            return _this.Select((i, item) => Trying.Try(() => converter(i, item), (exception) => new Nullable<TResult>())).Where(item => item.HasValue).Select(item => item.Value);
         }
 
 

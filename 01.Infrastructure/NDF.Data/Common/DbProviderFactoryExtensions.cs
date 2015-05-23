@@ -14,10 +14,9 @@ namespace NDF.Data.Common
     /// </summary>
     public static class DbProviderFactoryExtensions
     {
-        static DbProviderFactoryClass[] _factoryClasses;
-        static Dictionary<Type, string> _factoryMapping;
-        static Dictionary<string, string> _parameterTokenMapping;
-
+        private static Lazy<DbProviderFactoryClass[]> _factoryClasses = new Lazy<DbProviderFactoryClass[]>(GetDbProviderFactoryClasses);
+        private static Lazy<Dictionary<string, string>> _parameterTokenMappings = new Lazy<Dictionary<string, string>>(GetParameterTokenMappings);
+        private static Lazy<Dictionary<Type, string>> _factoryMappings = new Lazy<Dictionary<Type, string>>(GetDbProviderFactoryMappings);
 
 
         /// <summary>
@@ -29,11 +28,11 @@ namespace NDF.Data.Common
         {
             Type factoryType = factory.GetType();
             string providerName = null;
-            if (!DbProviderFactoryMapping.TryGetValue(factoryType, out providerName))
+            if (!_factoryMappings.Value.TryGetValue(factoryType, out providerName))
             {
                 DbProviderFactoryClass factoryClass = DbProviderFactoryClasses.FirstOrDefault(item => Type.GetType(item.AssemblyQualifiedName) == factoryType);
                 providerName = factoryClass == null ? factoryType.Namespace : factoryClass.InvariantName;
-                DbProviderFactoryMapping.Add(factoryType, providerName);
+                _factoryMappings.Value.Add(factoryType, providerName);
             }
             return providerName;
         }
@@ -60,11 +59,6 @@ namespace NDF.Data.Common
         }
 
 
-
-
-
-
-
         /// <summary>
         /// 检查传入的数据库提供程序名称 <paramref name="providerName"/> 是否在当前应用程序运行环境中已经注册。
         /// </summary>
@@ -79,7 +73,6 @@ namespace NDF.Data.Common
         }
 
 
-
         /// <summary>
         /// 根据数据库提供程序名称获取其 SQL 脚本环境下的查询参数名称前缀字符。
         /// </summary>
@@ -89,7 +82,7 @@ namespace NDF.Data.Common
         {
             Check.NotEmpty(providerName, "providerName");
             string parameterToken = null;
-            if (!ParameterTokenMapping.TryGetValue(providerName, out parameterToken))
+            if (!DbParameterTokenMappings.TryGetValue(providerName, out parameterToken))
             {
                 throw new ArgumentException(string.Format(Resources.UnregisteredProviderName, providerName), "providerName");
             }
@@ -97,97 +90,85 @@ namespace NDF.Data.Common
         }
 
 
-
         /// <summary>
         /// 获取当前应用程序运行环境中的所有已安装数据库提供程序的描述信息。
         /// </summary>
         public static DbProviderFactoryClass[] DbProviderFactoryClasses
         {
-            get
-            {
-                if (_factoryClasses == null)
-                {
-                    List<DbProviderFactoryClass> list = new List<DbProviderFactoryClass>();
-                    DataTable classes = DbProviderFactories.GetFactoryClasses();
-                    foreach (DataRow row in classes.Rows)
-                    {
-                        DbProviderFactoryClass item = new DbProviderFactoryClass();
-                        item.Name = Convert.ToString(row["Name"]);
-                        item.Description = Convert.ToString(row["Description"]);
-                        item.InvariantName = Convert.ToString(row["InvariantName"]);
-                        item.AssemblyQualifiedName = Convert.ToString(row["AssemblyQualifiedName"]);
-                        list.Add(item);
-                    }
-                    var types = typeof(DbProviderFactory).GetSubClass().Where(t => !t.IsAbstract);
-                    foreach (Type type in types)
-                    {
-                        if (!list.Any(item => item.AssemblyQualifiedName == type.AssemblyQualifiedName || item.InvariantName == type.Namespace))
-                        {
-                            DbProviderFactoryClass item = new DbProviderFactoryClass();
-                            string name = type.Name.Replace("Factory", "");
-                            item.Name = name + " Data Provider";
-                            item.Description = ".NET Framework Data Provider for " + name;
-                            item.InvariantName = type.Namespace;
-                            item.AssemblyQualifiedName = type.AssemblyQualifiedName;
-                            list.Add(item);
-                        }
-                    }
-                    _factoryClasses = list.Where(item =>
-                    {
-                        Type type = null;
-                        return Types.TryGetType(item.AssemblyQualifiedName, out type);
-                    }).ToArray();
-                }
-                return _factoryClasses;
-            }
-        }
-
-        /// <summary>
-        /// 获取实现 <see cref="System.Data.Common.DbProviderFactory"/> 的所有已安装提供程序的信息集合。
-        /// 该属性返回一个 <see cref="Dictionary&lt;TKey, TValue&gt;"/>，字典对象中每个元素的 string(Key) 表示数据库提供程序名称，元素的 Type(Value) 表示数据库提供程序的实例。
-        /// </summary>
-        internal static Dictionary<Type, string> DbProviderFactoryMapping
-        {
-            get
-            {
-                if (_factoryMapping == null)
-                {
-                    _factoryMapping = new Dictionary<Type, string>();
-                    foreach (DbProviderFactoryClass item in DbProviderFactoryClasses)
-                    {
-                        Type providerType = Type.GetType(item.AssemblyQualifiedName);
-                        if (providerType != null)
-                        {
-                            _factoryMapping.Add(providerType, item.InvariantName);
-                        }
-                    }
-                }
-                return _factoryMapping;
-            }
+            get { return _factoryClasses.Value; }
         }
 
         /// <summary>
         /// 获取数据库提供程序名称与其其 SQL 脚本环境下的查询参数名称前缀字符的关联关系映射集合。
         /// </summary>
-        internal static Dictionary<string, string> ParameterTokenMapping
+        public static Dictionary<string, string> DbParameterTokenMappings
         {
-            get
-            {
-                if (_parameterTokenMapping == null)
-                {
-                    _parameterTokenMapping = new Dictionary<string,string>();
-                    _parameterTokenMapping.Add("System.Data.Odbc", "@");
-                    _parameterTokenMapping.Add("System.Data.OleDb", "@");
-                    _parameterTokenMapping.Add("System.Data.OracleClient", ":");
-                    _parameterTokenMapping.Add("System.Data.SqlClient", "@");
-                    _parameterTokenMapping.Add("System.Data.SqlServerCe.3.5", "@");
-                    _parameterTokenMapping.Add("System.Data.SqlServerCe.4.0", "@");
-                    _parameterTokenMapping.Add("MySql.Data.MySqlClient", "@");
-                    _parameterTokenMapping.Add("Oracle.ManagedDataAccess.Client", "@");
-                    _parameterTokenMapping.Add("IBM.Data.DB2", "@");
-                }
-                return _parameterTokenMapping;
-            }
+            get { return _parameterTokenMappings.Value; }
         }
+
+
+
+        private static DbProviderFactoryClass[] GetDbProviderFactoryClasses()
+        {
+            List<DbProviderFactoryClass> list = DbProviderFactories.GetFactoryClasses().ToList<DbProviderFactoryClass>();
+
+            var types = typeof(DbProviderFactory).GetSubClass().Where(t => !t.IsAbstract);
+            foreach (Type type in types)
+            {
+                if (!list.Any(item => item.AssemblyQualifiedName == type.AssemblyQualifiedName || item.InvariantName == type.Namespace))
+                {
+                    DbProviderFactoryClass item = new DbProviderFactoryClass();
+                    string name = type.Name.Replace("Factory", "");
+                    item.Name = name + " Data Provider";
+                    item.Description = ".NET Framework Data Provider for " + name;
+                    item.InvariantName = type.Namespace;
+                    item.AssemblyQualifiedName = type.AssemblyQualifiedName;
+                    list.Add(item);
+                }
+            }
+
+            DbProviderFactoryClass[] factories = list.Where(
+                item =>
+                {
+                    Type type = null;
+                    return Types.TryGetType(item.AssemblyQualifiedName, out type);
+                }).ToArray();
+
+            return factories;
+        }
+
+        private static Dictionary<string, string> GetParameterTokenMappings()
+        {
+            Dictionary<string, string>  parameterTokenMappings = new Dictionary<string, string>();
+
+            parameterTokenMappings.Add("System.Data.Odbc", "@");
+            parameterTokenMappings.Add("System.Data.OleDb", "@");
+            parameterTokenMappings.Add("System.Data.OracleClient", ":");
+            parameterTokenMappings.Add("System.Data.SqlClient", "@");
+            parameterTokenMappings.Add("System.Data.SqlServerCe.3.5", "@");
+            parameterTokenMappings.Add("System.Data.SqlServerCe.4.0", "@");
+            parameterTokenMappings.Add("MySql.Data.MySqlClient", "@");
+            parameterTokenMappings.Add("Oracle.ManagedDataAccess.Client", "@");
+            parameterTokenMappings.Add("IBM.Data.DB2", "@");
+
+            return parameterTokenMappings;
+        }
+
+        private static Dictionary<Type, string> GetDbProviderFactoryMappings()
+        {
+            Dictionary<Type, string> factoryMappings = new Dictionary<Type, string>();
+
+            foreach (DbProviderFactoryClass item in DbProviderFactoryClasses)
+            {
+                Type providerType = Type.GetType(item.AssemblyQualifiedName);
+                if (providerType != null)
+                {
+                    factoryMappings.Add(providerType, item.InvariantName);
+                }
+            }
+
+            return factoryMappings;
+        }
+
     }
 }

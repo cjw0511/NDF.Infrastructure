@@ -13,19 +13,25 @@ namespace NDF.Serialization.Json.Converters
     public enum DateTimeFormatType
     {
         /// <summary>
-        /// 定义计算机的区域设置中指定的标准日期时间格式。为："yyyy/MM/dd hh:mm:ss.fff"。
+        /// 定义计算机的区域设置中指定的标准日期时间格式。为："yyyy/MM/dd HH:mm:ss"。
         /// </summary>
         [DateTimeConverterType(typeof(DateTimeConverter))]
         Normal,
 
         /// <summary>
+        /// 定义计算机的区域设置中指定的标准日期时间格式。为："yyyy/MM/dd HH:mm:ss.fff"。
+        /// </summary>
+        [DateTimeConverterType(typeof(StandardDateTimeConverter))]
+        Standard,
+
+        /// <summary>
         /// 表示计算机的区域设置中的通用日期/时间格式；默认值。
         ///     如果日期时间对象存在日期部分而没有时间部分，则只显示日期/短日期格式。
         ///     如果日期时间对象存在时间部分而没有日期部分，则只显示时间/短时间格式。
-        ///     如果日期时间对象既存在日期部分又存在时间部分，则按照 DateTimeConverter 默认格式 "yyyy/MM/dd hh:mm:ss.fff" 显示。
+        ///     如果日期时间对象既存在日期部分又存在时间部分，则按照 DateTimeConverter 默认格式 "yyyy/MM/dd HH:mm:ss" 显示。
         /// </summary>
-        [DateTimeConverterType(typeof(GeneralDateConverter))]
-        GeneralDate,
+        [DateTimeConverterType(typeof(GeneralDateTimeConverter))]
+        General,
 
         /// <summary>
         /// 表示计算机的区域设置中指定的长日期格式。一般为："yyyy'年'MM'月'dd'日', dddd"。
