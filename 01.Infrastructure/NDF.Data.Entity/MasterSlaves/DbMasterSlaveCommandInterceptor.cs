@@ -135,13 +135,20 @@ namespace NDF.Data.Entity.MasterSlaves
         /// <param name="interceptionContext"></param>
         protected virtual void UpdateToSlaveIfNeed(DbCommand command, DbInterceptionContext interceptionContext)
         {
+            // 判断当前会话是否处于分布式事务中
+            bool isDistributedTran = Transaction.Current != null && Transaction.Current.TransactionInformation.Status != TransactionStatus.Committed;
+
             var contexts = from context in interceptionContext.DbContexts
                            where this.ValidateContextCanApplyTo(context)
                            select context;
 
             foreach (var context in contexts)
             {
-                string connectionString = this.GetSlaveConnectionString(context);
+                // 判断该 context 是否处于普通数据库事务中
+                bool isDbTran = context.Database.CurrentTransaction != null;
+                // 如果处于分布式事务或普通事务中，则“禁用”读写分离，处于事务中的所有读写操作都指向 Master
+                string connectionString = isDistributedTran || isDbTran ? this.MasterConnectionString : this.GetSlaveConnectionString(context);
+
                 this.UpdateConnectionStringIfNeed(command, context.Database.Connection, connectionString);
                 this.StartServersStateScanIfNeed(context);
             }
