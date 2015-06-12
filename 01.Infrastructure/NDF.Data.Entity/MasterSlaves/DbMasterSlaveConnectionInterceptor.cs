@@ -42,13 +42,31 @@ namespace NDF.Data.Entity.MasterSlaves
         /// <param name="interceptionContext"></param>
         public override void Opening(DbConnection connection, DbConnectionInterceptionContext interceptionContext)
         {
-            string connectionString = this.Config.UsableMasterConnectionString;
+            this.UpdateConnectionStringIfNeed(connection, this.Config.UsableMasterConnectionString, interceptionContext.DbContexts);
+        }
 
-            if (!DbMasterSlaveCommandInterceptor.ConnectionStringEquals(connection, connectionString))
+        /// <summary>
+        /// 在开启一个数据库事务动作执行前瞬间触发。当开始事务操作时将数据库连接字符串更新至 Master 数据库。
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="interceptionContext"></param>
+        public override void BeginningTransaction(DbConnection connection, BeginTransactionInterceptionContext interceptionContext)
+        {
+            this.UpdateConnectionStringIfNeed(connection, this.Config.UsableMasterConnectionString, interceptionContext.DbContexts);
+        }
+
+
+        private void UpdateConnectionStringIfNeed(DbConnection connection, string connectionString, IEnumerable<System.Data.Entity.DbContext> contexts)
+        {
+            if (contexts.Any(this.Config.CanApplyTo))
             {
-                DbMasterSlaveCommandInterceptor.UpdateConnectionString(connection, connectionString);
+                if (!DbMasterSlaveCommandInterceptor.ConnectionStringEquals(connection, connectionString))
+                {
+                    DbMasterSlaveCommandInterceptor.UpdateConnectionString(connection, connectionString);
+                }
             }
         }
+
 
     }
 }

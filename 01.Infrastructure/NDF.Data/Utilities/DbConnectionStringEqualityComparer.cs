@@ -55,6 +55,22 @@ namespace NDF.Data.Utilities
             DbConnectionStringBuilder b = this.ProviderFactory.CreateConnectionStringBuilder();
             b.ConnectionString = y;
 
+            if (this.ProviderFactory is System.Data.SqlClient.SqlClientFactory)
+            {
+                var m = a as System.Data.SqlClient.SqlConnectionStringBuilder;
+                var n = b as System.Data.SqlClient.SqlConnectionStringBuilder;
+                if (m != null && n != null)
+                {
+                    return string.Equals(m.DataSource, n.DataSource, StringComparison.OrdinalIgnoreCase)
+                        //&& string.Equals(m.UserID, n.UserID, StringComparison.OrdinalIgnoreCase)
+                        //&& string.Equals(m.Password, n.Password, StringComparison.OrdinalIgnoreCase)
+                        && string.Equals(m.InitialCatalog, n.InitialCatalog, StringComparison.OrdinalIgnoreCase);
+                        //&& m.PersistSecurityInfo == n.PersistSecurityInfo
+                        //&& m.ApplicationIntent == n.ApplicationIntent
+                        //&& string.Equals(m.NetworkLibrary, n.NetworkLibrary, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
             return a.EquivalentTo(b);
         }
 

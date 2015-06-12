@@ -2,6 +2,7 @@
 using NDF.Data.Utilities;
 using NDF.Utilities;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -20,7 +21,8 @@ namespace NDF.Data.Entity.MasterSlaves
         private DbMasterSlaveConfigContext _config;
 
         private Timer _timer;
-        private List<CancellationTokenSource> _cancellationTokens = new List<CancellationTokenSource>();
+        //private List<CancellationTokenSource> _cancellationTokens = new List<CancellationTokenSource>();
+        private ConcurrentDictionary<CancellationToken, CancellationTokenSource> _cancellationTokens = new ConcurrentDictionary<CancellationToken, CancellationTokenSource>();
 
 
         #region 构造函数定义
@@ -84,7 +86,8 @@ namespace NDF.Data.Entity.MasterSlaves
             CancellationTokenSource cts = new CancellationTokenSource();
 
             cts.Token.Register(() => this.RemoveCancellationToken(cts));
-            this._cancellationTokens.Add(cts);
+            //this._cancellationTokens.Add(cts);
+            this._cancellationTokens.TryAdd(cts.Token, cts);
 
             this.OnScanning(server.ConnectionString, server.Type, server.State);
             tester.TestAsync(server.ConnectionString, cts.Token).ContinueWith(
@@ -106,7 +109,9 @@ namespace NDF.Data.Entity.MasterSlaves
         {
             if (cancellationTokenSource != null)
             {
-                this._cancellationTokens.Remove(cancellationTokenSource);
+                //this._cancellationTokens.Remove(cancellationTokenSource);
+                CancellationTokenSource cts;
+                this._cancellationTokens.TryRemove(cancellationTokenSource.Token, out cts);
             }
         }
 
@@ -213,10 +218,15 @@ namespace NDF.Data.Entity.MasterSlaves
             }
             if (this._cancellationTokens != null && this._cancellationTokens.Count > 0)
             {
-                foreach (CancellationTokenSource cts in this._cancellationTokens.ToArray())
+                //foreach (CancellationTokenSource cts in this._cancellationTokens.ToArray())
+                //{
+                //    if (cts != null && !cts.IsCancellationRequested)
+                //        cts.Cancel(false);
+                //}
+                //this._cancellationTokens.Clear();
+                foreach (CancellationTokenSource cts in this._cancellationTokens.Values.ToArray())
                 {
-                    if (cts != null && !cts.IsCancellationRequested)
-                        cts.Cancel(false);
+                    cts.Cancel(false);
                 }
                 this._cancellationTokens.Clear();
             }

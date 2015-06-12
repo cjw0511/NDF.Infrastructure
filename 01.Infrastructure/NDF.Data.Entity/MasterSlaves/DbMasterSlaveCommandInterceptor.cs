@@ -1,14 +1,10 @@
 ﻿using NDF.Data.Entity.MasterSlaves.Interception;
 using NDF.Data.Utilities;
-using NDF.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace NDF.Data.Entity.MasterSlaves
@@ -141,18 +137,19 @@ namespace NDF.Data.Entity.MasterSlaves
 
             foreach (var context in contexts)
             {
-                string connectionString = this.GetSlaveConnectionString(context);
+                string connectionString = this.GetSlaveConnectionString(context, command);
                 this.UpdateConnectionStringIfNeed(command, context.Database.Connection, connectionString);
                 this.StartServersStateScanIfNeed(context);
             }
         }
 
 
-        private string GetSlaveConnectionString(System.Data.Entity.DbContext context)
+
+        private string GetSlaveConnectionString(System.Data.Entity.DbContext context, DbCommand command)
         {
             Transaction tran = Transaction.Current;
-            return (tran == null || tran.TransactionInformation.Status == TransactionStatus.Committed) && context.Database.CurrentTransaction == null
-                ? this.Config.UsableSlaveConnectionString
+            return (tran == null || tran.TransactionInformation.Status == TransactionStatus.Committed) && context.Database.CurrentTransaction == null && command.Transaction == null
+                ? this.SlaveConnectionString
                 : this.MasterConnectionString;
         }
 
